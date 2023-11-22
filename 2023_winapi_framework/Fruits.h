@@ -5,10 +5,10 @@ class Fruits :
 	public Object
 {
 public:
-	Fruits(bool rottenMode, FRUITS type);
+	Fruits(bool rottenMode, FRUITS type, float scale = 0.3f);
 	~Fruits();
 
-	void Init(bool rottenMode, FRUITS type);
+	void Init(bool rottenMode, FRUITS type, float scale = 0.3f);
 
 
 	void Update() override;
