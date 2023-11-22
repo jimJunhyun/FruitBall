@@ -26,5 +26,7 @@ private:
 	FRUITS fruitMode;
 
 	Texture* myTexture;
+
+	float angle;
 };
 

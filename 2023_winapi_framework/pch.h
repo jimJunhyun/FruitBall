@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <vector>
 #include <map>
+#include <set>
 #include <string>
 #include <algorithm>
 #include <memory>

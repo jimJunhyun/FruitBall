@@ -15,6 +15,9 @@ public:
 	void EnterCollision(Collider* _pOther);
 	void ExitCollision(Collider* _pOther);
 	void StayCollision(Collider* _pOther);
+
+	const RECT& GetRect();
+
 public:
 	void SetScale(Vec2 _vScale) { m_vScale = _vScale; }
 	void SetOffSetPos(Vec2 _vOffsetPos) 

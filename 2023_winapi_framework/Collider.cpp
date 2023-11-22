@@ -38,6 +38,7 @@ void Collider::Render(HDC _dc)
 	SelectGDI pen(_dc, ePen);
 	SelectGDI brush(_dc, BRUSH_TYPE::HOLLOW);
 	RECT_RENDER(m_vFinalPos.x, m_vFinalPos.y, m_vScale.x, m_vScale.y, _dc);
+	
 }
 
 void Collider::EnterCollision(Collider* _pOther)
@@ -55,6 +56,11 @@ void Collider::ExitCollision(Collider* _pOther)
 void Collider::StayCollision(Collider* _pOther)
 {
 	m_pOwner->StayCollision(_pOther);
+}
+
+const RECT& Collider::GetRect()
+{
+	return { (long)(m_pOwner->GetPos().x + m_vOffsetPos.x), (long)(m_pOwner->GetPos().y + m_vOffsetPos.y) ,(long)(m_pOwner->GetPos().x + m_vOffsetPos.x + m_vScale.x), (long)(m_pOwner->GetPos().y + m_vOffsetPos.y + m_vScale.y) };
 }
 
 void Collider::FinalUpdate()

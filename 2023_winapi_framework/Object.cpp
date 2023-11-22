@@ -10,6 +10,7 @@ Object::Object()
 	, m_vScale{}
 	, m_IsAlive(true)
 	, m_pAnimator(nullptr)
+	,angle (0)
 {
 }
 
@@ -55,6 +56,7 @@ void Object::Render(HDC _dc)
 
 void Object::EnterCollision(Collider* _pOther)
 {
+	SetDead();
 }
 
 void Object::ExitCollision(Collider* _pOther)

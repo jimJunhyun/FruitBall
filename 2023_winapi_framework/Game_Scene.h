@@ -1,5 +1,16 @@
 #pragma once
 #include "Scene.h"
+
+struct Drag {
+    Vec2 startPos;
+    bool isPassed;
+    //std::set<Object*> passedObjs;
+    float moveDist;
+    Vec2 endPos;
+
+    Vec2 prevCalcPos;
+};
+
 class Game_Scene :
     public Scene
 {
@@ -10,9 +21,10 @@ class Game_Scene :
 
 private:
     float accSec = 0;
-
-    vector<Object*> objs;
+    Drag* curDrag;
+    RECT spawnRange;
 public:
     float spawnSec = 1.0f;
+
 };
 
