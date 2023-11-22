@@ -154,6 +154,12 @@
     <ClInclude Include="2023_winapi_framework.h">
       <Filter>Default</Filter>
     </ClInclude>
+    <ClInclude Include="Fruits.h">
+      <Filter>Engine\04. Object\MainObject</Filter>
+    </ClInclude>
+    <ClInclude Include="EnumToStringer.h">
+      <Filter>Engine\03. Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2023_winapi_framework.rc">
@@ -240,6 +246,12 @@
     </ClCompile>
     <ClCompile Include="Animator.cpp">
       <Filter>Engine\07. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Fruits.cpp">
+      <Filter>Engine\04. Object\MainObject</Filter>
+    </ClCompile>
+    <ClCompile Include="EnumToStringer.cpp">
+      <Filter>Engine\03. Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -177,8 +177,10 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="enums.h" />
+    <ClInclude Include="EnumToStringer.h" />
     <ClInclude Include="EventMgr.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Fruits.h" />
     <ClInclude Include="Game_Scene.h" />
     <ClInclude Include="KeyMgr.h" />
     <ClInclude Include="Monster.h" />
@@ -206,7 +208,9 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />
     <ClCompile Include="Core.cpp" />
+    <ClCompile Include="EnumToStringer.cpp" />
     <ClCompile Include="EventMgr.cpp" />
+    <ClCompile Include="Fruits.cpp" />
     <ClCompile Include="Game_Scene.cpp" />
     <ClCompile Include="KeyMgr.cpp" />
     <ClCompile Include="main.cpp" />

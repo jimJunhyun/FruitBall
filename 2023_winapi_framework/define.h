@@ -9,11 +9,13 @@ public:							\
 		static type m_pInst;	\
 		return &m_pInst;		\
 	}
-#define WINDOW_CLASS_NAME L"Gamep"
+#define WINDOW_CLASS_NAME L"FRUITBALL"
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720 
 #define RECT_RENDER(posx, posy, scalex, scaley, hdc) Rectangle(hdc, (int)(posx-scalex/2), (int)(posy-scaley/2), (int)(posx+scalex/2), (int)(posy+scaley/2))
 #define ELLIPSE_RENDER(posx, posy, scalex, scaley, hdc) Ellipse(hdc, (int)(posx-scalex/2), (int)(posy-scaley/2), (int)(posx+scalex/2), (int)(posy+scaley/2))
+#define TRANSPARENTBLT_INPOS(hdc, texture) TransparentBlt(hdc, GetPos().x, GetPos().y, GetScale().x, GetScale().y, texture->GetDC(), 0, 0, texture->GetWidth(), texture->GetHeight(), RGB(255, 0, 255))
+
 
 #define RECT_MAKE(posx, posy, scalex, scaley) {posx-scalex/2, posy-scaley/2, posx+scalex/2, posy+scaley/2}
 #define fDT TimeMgr::GetInst()->GetDT()

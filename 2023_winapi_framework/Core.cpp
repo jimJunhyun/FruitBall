@@ -42,15 +42,7 @@ bool Core::Init(HWND _hWnd, POINT _ptResolution)
 
 void Core::GameLoop()
 {
-	/*static int count = 0;
-	++count;
-	static int prev = GetTickCount64();
-	int cur = GetTickCount64();
-	if (cur - prev > 1000)
-	{
-		prev = cur;
-		count = 0;
-	}*/
+	
 	Update();
 	Render();
 }
@@ -64,23 +56,6 @@ void Core::Update()
 	KeyMgr::GetInst()->Update();
 	SceneMgr::GetInst()->Update();
 	CollisionMgr::GetInst()->Update();
-//	Vec2 vPos = m_obj.GetPos();
-//
-////	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-////	if(KeyMgr::GetInst()->GetKey(KEY_TYPE::LEFT) == KEY_STATE::UP)
-//	if(KEY_UP(KEY_TYPE::LEFT))
-//	{
-////		m_obj.m_ptPos.x -= 1;
-//		vPos.x -= 100.f;// *fDT;
-//	}
-//
-////	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-//	if(KEY_DOWN(KEY_TYPE::RIGHT))
-//	{
-////		m_obj.m_ptPos.x += 1;
-//		vPos.x += 100.f * fDT;
-//	}
-//	m_obj.SetPos(vPos);
 }
 
 void Core::Render()
