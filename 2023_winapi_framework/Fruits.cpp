@@ -36,13 +36,7 @@ void Fruits::Update()
 
 void Fruits::Render(HDC _dc)
 {
-	HDC rotatedImgDC = CreateCompatibleDC(_dc);
-	POINT* points = new POINT[3]; //ÁÂ»ó ¿ì»ó ÁÂÇÏ
-	points[0] = { (long)GetPos().x, (long)GetPos().y}; //######################################
-	points[1] = { (long)(GetPos().x + GetScale().x + (sin(angle))), (long)GetPos().y};
-	points[1] = { (long)(GetPos().x + (sin(angle) * GetScale().x)), (long)GetPos().y};
-	//PlgBlt(rotatedImgDC, )
-	//TransparentBlt(_dc, )
+	TRANSPARENTBLT_INPOS(_dc, myTexture->GetDC(), myTexture);
 }
 
 void Fruits::EnterCollision(Collider* _pOther)
@@ -54,4 +48,3 @@ void Fruits::ExitCollision(Collider* _pOther)
 {
 	Object::ExitCollision(_pOther);
 }
-

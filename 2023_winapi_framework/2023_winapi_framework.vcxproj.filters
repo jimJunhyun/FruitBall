@@ -62,6 +62,9 @@
     <Filter Include="Engine\08. Module">
       <UniqueIdentifier>{b8698270-780f-4bb6-bf63-bf69c99fa2ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\03. Manager\ForceManager">
+      <UniqueIdentifier>{bc0f7d65-21d9-4d62-aaa1-4c0f14a58e7e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -160,6 +163,9 @@
     <ClInclude Include="EnumToStringer.h">
       <Filter>Engine\03. Manager</Filter>
     </ClInclude>
+    <ClInclude Include="ForceManager.h">
+      <Filter>Engine\03. Manager\ForceManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2023_winapi_framework.rc">
@@ -252,6 +258,9 @@
     </ClCompile>
     <ClCompile Include="EnumToStringer.cpp">
       <Filter>Engine\03. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ForceManager.cpp">
+      <Filter>Engine\03. Manager\ForceManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

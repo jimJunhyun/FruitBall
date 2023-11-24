@@ -6,6 +6,7 @@
 #include "CollisionMgr.h"
 #include "Fruits.h"
 #include "KeyMgr.h"
+#include "ForceManager.h"
 #include "SelectGDI.h"
 
 void Game_Scene::Init()
@@ -24,7 +25,7 @@ void Game_Scene::Update()
 			accSec = 0;
 			Fruits* fruit = new Fruits(rand() % 2, static_cast<FRUITS>(rand() % (int)FRUITS::MAX), 0.1f);
 			fruit->SetPos({ rand() % 1280, rand() % 720 });
-
+			fruit->SetVelocity({ 100, 100 });
 
 			AddObject(fruit, OBJECT_GROUP::FRUIT);
 		}

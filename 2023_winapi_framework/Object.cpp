@@ -10,7 +10,7 @@ Object::Object()
 	, m_vScale{}
 	, m_IsAlive(true)
 	, m_pAnimator(nullptr)
-	,angle (0)
+	, m_vVelocity{}
 {
 }
 
@@ -37,7 +37,9 @@ void Object::CreateAnimator()
 
 void Object::Update()
 {
-
+	if (m_vVelocity.Length() != 0) {
+		m_vPos = m_vPos + m_vVelocity * fDT;
+	}
 }
 
 void Object::FinalUpdate()

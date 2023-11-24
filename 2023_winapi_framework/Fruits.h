@@ -27,6 +27,6 @@ private:
 
 	Texture* myTexture;
 
-	float angle;
+
 };
 

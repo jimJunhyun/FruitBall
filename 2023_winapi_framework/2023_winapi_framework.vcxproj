@@ -179,6 +179,7 @@
     <ClInclude Include="enums.h" />
     <ClInclude Include="EnumToStringer.h" />
     <ClInclude Include="EventMgr.h" />
+    <ClInclude Include="ForceManager.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Fruits.h" />
     <ClInclude Include="Game_Scene.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="EnumToStringer.cpp" />
     <ClCompile Include="EventMgr.cpp" />
+    <ClCompile Include="ForceManager.cpp" />
     <ClCompile Include="Fruits.cpp" />
     <ClCompile Include="Game_Scene.cpp" />
     <ClCompile Include="KeyMgr.cpp" />

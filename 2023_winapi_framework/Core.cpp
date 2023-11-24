@@ -7,6 +7,7 @@
 #include "ResMgr.h"
 #include "CollisionMgr.h"
 #include "EventMgr.h"
+#include "ForceManager.h"
 bool Core::Init(HWND _hWnd, POINT _ptResolution)
 {
 	// === 변수 초기화 === 
@@ -36,6 +37,7 @@ bool Core::Init(HWND _hWnd, POINT _ptResolution)
 	KeyMgr::GetInst()->Init();
 	ResMgr::GetInst()->Init();
 	SceneMgr::GetInst()->Init();
+	ForceManager::GetInst()->Init();
 
 	return true;
 }
@@ -55,6 +57,7 @@ void Core::Update()
 	TimeMgr::GetInst()->Update();
 	KeyMgr::GetInst()->Update();
 	SceneMgr::GetInst()->Update();
+	ForceManager::GetInst()->Update();
 	CollisionMgr::GetInst()->Update();
 }
 
