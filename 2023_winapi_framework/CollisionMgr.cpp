@@ -65,8 +65,8 @@ void CollisionMgr::CollisionGroupUpdate(OBJECT_GROUP _eLeft, OBJECT_GROUP _eRigh
 					}
 					else
 					{
-						pLeftCol->StayCollision(pRightCol);
-						pRightCol->StayCollision(pLeftCol);
+						pLeftCol->StayCollision(pRightCol, &info);
+						pRightCol->StayCollision(pLeftCol, &info);
 					}
 				}
 				// 이전에 충돌x

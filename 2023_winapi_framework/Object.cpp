@@ -65,16 +65,20 @@ void Object::EnterCollision(Collider* _pOther, CollisionInfo* info)
 {
 	if (_pOther == nullptr || info == nullptr)
 		return;
-	
+	Vec2 vel = _pOther->m_pOwner->GetVelocity();
+	AddForce(info->GetCollideNormal(_pOther) * vel.Length() * 0.5f * _pOther->m_pOwner->bounciness);
 }
 
 void Object::ExitCollision(Collider* _pOther)
 {
 }
 
-void Object::StayCollision(Collider* _pOther)
+void Object::StayCollision(Collider* _pOther, CollisionInfo* info)
 {
-
+	if (_pOther == nullptr || info == nullptr)
+		return;
+	Vec2 vel = _pOther->m_pOwner->GetVelocity();
+	AddForce(info->GetCollideNormal(_pOther) * 0.5f);
 }
 
 void Object::Component_Render(HDC _dc)

@@ -25,6 +25,7 @@ private:
     RECT spawnRange;
 public:
     float spawnSec = 0.5f;
-
+    int maxCnt = 17;
+    int curCnt = 0;
 };
 

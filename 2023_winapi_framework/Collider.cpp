@@ -64,9 +64,9 @@ void Collider::ExitCollision(Collider* _pOther)
 	m_pOwner->ExitCollision(_pOther);
 }
 
-void Collider::StayCollision(Collider* _pOther)
+void Collider::StayCollision(Collider* _pOther, CollisionInfo* info)
 {
-	m_pOwner->StayCollision(_pOther);
+	m_pOwner->StayCollision(_pOther, info);
 }
 
 const RECT& Collider::GetRect()

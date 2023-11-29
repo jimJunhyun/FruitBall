@@ -12,7 +12,7 @@ CollisionInfo::~CollisionInfo()
 {
 }
 
-const Vec2 CollisionInfo::GetCollideNormal(Collider* relativeTo)
+Vec2 CollisionInfo::GetCollideNormal(Collider* relativeTo)
 {
 	Vec2 pos = relativeTo->GetFinalPos();
 	return (point - pos).Normalized();

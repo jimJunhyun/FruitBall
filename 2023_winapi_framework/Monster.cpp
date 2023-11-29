@@ -50,6 +50,6 @@ void Monster::ExitCollision(Collider* _pOther)
 {
 }
 
-void Monster::StayCollision(Collider* _pOther)
-{
-}
+//void Monster::StayCollision(Collider* _pOther)
+//{
+//}

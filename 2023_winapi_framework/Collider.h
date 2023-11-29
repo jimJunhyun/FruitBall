@@ -15,7 +15,7 @@ public:
 public:
 	void EnterCollision(Collider* _pOther, CollisionInfo* info);
 	void ExitCollision(Collider* _pOther);
-	void StayCollision(Collider* _pOther);
+	void StayCollision(Collider* _pOther, CollisionInfo* info);
 
 	const RECT& GetRect();
 

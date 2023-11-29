@@ -20,7 +20,7 @@ void Game_Scene::Init()
 void Game_Scene::Update()
 {
 	Scene::Update();
-	if (!curDrag) {
+	if (!curDrag && curCnt < maxCnt) {
 		accSec += fDT;
 		if (accSec > spawnSec) {
 			accSec = 0;
@@ -29,6 +29,7 @@ void Game_Scene::Update()
 			fruit->SetVelocity({500, 100});
 
 			AddObject(fruit, OBJECT_GROUP::FRUIT);
+			++curCnt;
 		}
 	}
 	
@@ -56,6 +57,7 @@ void Game_Scene::Update()
 
 						curDrag->isPassed = true;
 						fruits[i]->EnterCollision(nullptr, nullptr);
+						--curCnt;
 					}
 				}
 			}
