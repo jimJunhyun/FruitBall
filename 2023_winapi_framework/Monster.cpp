@@ -34,17 +34,17 @@ void Monster::Update()
 	SetPos(vCurPos);
 }
 
-void Monster::EnterCollision(Collider* _pOther)
-{
-	const Object* pOtherObj = _pOther->GetObj();
-	if (pOtherObj->GetName() == L"Player_Bullet")
-	{
-		// 昏力贸府秦林搁蹬.
-		m_iHp--;
-		if(m_iHp<=0)
-			EventMgr::GetInst()->DeleteObject(this);
-	}
-}
+//void Monster::EnterCollision(Collider* _pOther)
+//{
+//	const Object* pOtherObj = _pOther->GetObj();
+//	if (pOtherObj->GetName() == L"Player_Bullet")
+//	{
+//		// 昏力贸府秦林搁蹬.
+//		m_iHp--;
+//		if(m_iHp<=0)
+//			EventMgr::GetInst()->DeleteObject(this);
+//	}
+//}
 
 void Monster::ExitCollision(Collider* _pOther)
 {

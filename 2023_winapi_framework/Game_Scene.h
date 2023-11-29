@@ -24,7 +24,7 @@ private:
     Drag* curDrag;
     RECT spawnRange;
 public:
-    float spawnSec = 1.0f;
+    float spawnSec = 0.5f;
 
 };
 

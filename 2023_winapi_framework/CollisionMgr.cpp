@@ -31,7 +31,7 @@ void CollisionMgr::CollisionGroupUpdate(OBJECT_GROUP _eLeft, OBJECT_GROUP _eRigh
 			continue;
 		for (size_t j = 0; j < vecRight.size(); ++j)
 		{
-			if (vecRight[j]->GetCollider() == nullptr)
+			if (vecRight[j]->GetCollider() == nullptr || vecRight[j]->GetCollider() == vecLeft[i]->GetCollider())
 				continue;
 			Collider* pLeftCol = vecLeft[i]->GetCollider();
 			Collider* pRightCol = vecRight[j]->GetCollider();
@@ -49,8 +49,9 @@ void CollisionMgr::CollisionGroupUpdate(OBJECT_GROUP _eLeft, OBJECT_GROUP _eRigh
 				// 넣은거 잡아라.
 				iter = m_mapColInfo.find(colID.ID);
 			}
+			CollisionInfo info(pLeftCol, pRightCol);
 			// 충돌하네?
-			if (IsCollision(pLeftCol, pRightCol))
+			if (IsCollision(pLeftCol, pRightCol, info))
 			{
 				// 이전에도 충돌 중
 				if (iter->second)
@@ -71,7 +72,6 @@ void CollisionMgr::CollisionGroupUpdate(OBJECT_GROUP _eLeft, OBJECT_GROUP _eRigh
 				// 이전에 충돌x
 				else
 				{
-					CollisionInfo info(pLeftCol, pRightCol);
 					pLeftCol->EnterCollision(pRightCol, &info);
 					pRightCol->EnterCollision(pLeftCol, &info);
 					iter->second = true;
@@ -91,19 +91,27 @@ void CollisionMgr::CollisionGroupUpdate(OBJECT_GROUP _eLeft, OBJECT_GROUP _eRigh
 	}
 }
 
-bool CollisionMgr::IsCollision(Collider* _pLeft, Collider* _pRight)
+bool CollisionMgr::IsCollision(Collider* _pLeft, Collider* _pRight, CollisionInfo& outCol)
 {
 	if (_pLeft->GetType() == _pRight->GetType()) {
 		if (_pLeft->GetType() == COLLIDER_TYPE::RECTANGLE) {
 			RECT tmps;
-			return IntersectRect(&tmps, &(_pLeft->GetRect()), &(_pRight->GetRect()));
+			bool res = IntersectRect(&tmps, &(_pLeft->GetRect()), &(_pRight->GetRect()));
+			if(res)
+				outCol.SetPos(Vec2((tmps.left + tmps.right), (tmps.top + tmps.bottom)));
+			return res;
 		}
 		else {
 			Vec2 leftPos = _pLeft->GetFinalPos();
 			Vec2 rightPos = _pRight->GetFinalPos();
-
-			float dist = (leftPos - rightPos).Length();
-			return (dist <= (_pLeft->GetScale().x + _pRight->GetScale().x));
+			Vec2 posDiff = (leftPos - rightPos);
+			float dist = posDiff.Length();
+			float angleRad = acos(posDiff.Dotproduct(Vec2(0, 1)) / (posDiff.Length()));
+			if (dist <= (_pLeft->GetScale().x + _pRight->GetScale().x)) {
+				outCol.SetPos(rightPos - Vec2((float)(cos(angleRad) * _pRight->GetScale().x), (float)(sin(angleRad) * _pRight->GetScale().x)));
+				return true;
+			}
+			return false;
 		}
 	}
 
@@ -127,14 +135,19 @@ bool CollisionMgr::IsCollision(Collider* _pLeft, Collider* _pRight)
 	float ry = rectangle->GetFinalPos().y;
 	float rw = rectangle->GetScale().x;
 	float rh = rectangle->GetScale().y;
-	if (cx < rx)         closestPoint.x = rx;        // left edge
-	else if (cx > rx + rw) closestPoint.x = rx + rw;     // right edge
+	if (cx < rx)         
+		closestPoint.x = rx;
+	else if (cx > rx + rw) 
+		closestPoint.x = rx + rw;
 
-	if (cy < ry)         closestPoint.y = ry;        // top edge
-	else if (cy > ry + rh) closestPoint.y = ry + rh;     // bottom edge
+	if (cy < ry)         
+		closestPoint.y = ry; 
+	else if (cy > ry + rh) 
+		closestPoint.y = ry + rh;
 
 	float distBetween = (circlePoint - closestPoint).Length();
-
+	if (distBetween >= circle->GetScale().x)
+		outCol.SetPos(closestPoint);
 	return distBetween >= circle->GetScale().x;
 }
 

@@ -22,10 +22,12 @@ public:
 	void SetPos(Vec2 _vPos) { m_vPos = _vPos; }
 	void SetScale(Vec2 _vScale) { m_vScale = _vScale; }
 	void SetVelocity(Vec2 val) { m_vVelocity = val; }
+	void SetBounciness(float val) { bounciness = val; }
+	void AddForce(Vec2 val) { m_vVelocity = m_vVelocity + val; }
 	const Vec2& GetPos() const { return m_vPos; }
 	const Vec2& GetScale() const { return m_vScale; }
-	const Vec2& GetVelocity()  { return m_vVelocity * velMod; }
-	const float GetVelocityPower();
+	const Vec2& GetVelocity() { return m_vVelocity; }
+	const float& GetBounciness() { return bounciness; }
 	Collider* GetCollider() const 
 	{ return m_pCollider; }
 	Animator* GetAnimator()
@@ -45,10 +47,10 @@ private:
 	Vec2 m_vPos; // 위치
 	Vec2 m_vScale; // 크기
 	Vec2 m_vVelocity; 
-	Vec2 velMod;
 	Collider* m_pCollider;
 	wstring m_strName; // 이름.
 	bool m_IsAlive;
 	Animator* m_pAnimator;
+	float bounciness;
 };
 

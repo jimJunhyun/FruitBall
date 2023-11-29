@@ -4,6 +4,8 @@
 #include "TimeMgr.h"
 #include "Collider.h"
 #include "Animator.h"
+#include "CollisionInfo.h"
+
 Object::Object()
 	: m_pCollider(nullptr)
 	, m_vPos{}
@@ -11,7 +13,7 @@ Object::Object()
 	, m_IsAlive(true)
 	, m_pAnimator(nullptr)
 	, m_vVelocity(0, 0)
-	, velMod(1, 1)
+	, bounciness(0.7)
 {
 }
 
@@ -61,6 +63,9 @@ void Object::Render(HDC _dc)
 
 void Object::EnterCollision(Collider* _pOther, CollisionInfo* info)
 {
+	if (_pOther == nullptr || info == nullptr)
+		return;
+	
 }
 
 void Object::ExitCollision(Collider* _pOther)
@@ -80,9 +85,3 @@ void Object::Component_Render(HDC _dc)
 		m_pAnimator->Render(_dc);
 
 }
-
-const float Object::GetVelocityPower()
-{
-	return m_vVelocity.Length();;
-}
-

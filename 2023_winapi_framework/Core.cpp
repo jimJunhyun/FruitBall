@@ -40,6 +40,7 @@ bool Core::Init(HWND _hWnd, POINT _ptResolution)
 	ForceManager::GetInst()->Init();
 	ForceManager::GetInst()->AddForcedGroups(OBJECT_GROUP::FRUIT);
 	ForceManager::GetInst()->SetFloorRes(0.1f);
+	CollisionMgr::GetInst()->CheckGroup(OBJECT_GROUP::FRUIT, OBJECT_GROUP::FRUIT);
 
 	return true;
 }
