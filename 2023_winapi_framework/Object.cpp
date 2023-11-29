@@ -10,7 +10,8 @@ Object::Object()
 	, m_vScale{}
 	, m_IsAlive(true)
 	, m_pAnimator(nullptr)
-	, m_vVelocity{}
+	, m_vVelocity(0, 0)
+	, velMod(1, 1)
 {
 }
 
@@ -23,10 +24,11 @@ Object::~Object()
 
 }
 
-void Object::CreateCollider()
+void Object::CreateCollider(COLLIDER_TYPE type)
 {
 	m_pCollider = new Collider;
 	m_pCollider->m_pOwner = this;
+	m_pCollider->type = type;
 }
 
 void Object::CreateAnimator()
@@ -38,7 +40,8 @@ void Object::CreateAnimator()
 void Object::Update()
 {
 	if (m_vVelocity.Length() != 0) {
-		m_vPos = m_vPos + m_vVelocity * fDT;
+		Vec2 curVel = GetVelocity();
+		m_vPos = m_vPos + curVel * fDT;
 	}
 }
 
@@ -56,9 +59,8 @@ void Object::Render(HDC _dc)
 	Component_Render(_dc);
 }
 
-void Object::EnterCollision(Collider* _pOther)
+void Object::EnterCollision(Collider* _pOther, CollisionInfo* info)
 {
-	SetDead();
 }
 
 void Object::ExitCollision(Collider* _pOther)
@@ -77,5 +79,10 @@ void Object::Component_Render(HDC _dc)
 	if (nullptr != m_pAnimator)
 		m_pAnimator->Render(_dc);
 
+}
+
+const float Object::GetVelocityPower()
+{
+	return m_vVelocity.Length();;
 }
 

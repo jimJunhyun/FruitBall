@@ -15,7 +15,6 @@ public:
 
 	void SetFloorRes(float val) { floorResistance = val; }
 	const float& GetFloorRes() const { return floorResistance; }
-	
 
 private:
 	std::set<OBJECT_GROUP> forcedGroups;

@@ -4,6 +4,7 @@
 #include "Object.h"
 #include "Scene.h"
 #include "Collider.h"
+#include "CollisionInfo.h"
 void CollisionMgr::Update()
 {
 	for (UINT Row = 0; Row < (UINT)OBJECT_GROUP::END; ++Row)
@@ -30,8 +31,7 @@ void CollisionMgr::CollisionGroupUpdate(OBJECT_GROUP _eLeft, OBJECT_GROUP _eRigh
 			continue;
 		for (size_t j = 0; j < vecRight.size(); ++j)
 		{
-			if (vecRight[j]->GetCollider() == nullptr ||
-				vecLeft[i] == vecRight[j])
+			if (vecRight[j]->GetCollider() == nullptr)
 				continue;
 			Collider* pLeftCol = vecLeft[i]->GetCollider();
 			Collider* pRightCol = vecRight[j]->GetCollider();
@@ -71,9 +71,9 @@ void CollisionMgr::CollisionGroupUpdate(OBJECT_GROUP _eLeft, OBJECT_GROUP _eRigh
 				// 이전에 충돌x
 				else
 				{
-					//if()
-					pLeftCol->EnterCollision(pRightCol);
-					pRightCol->EnterCollision(pLeftCol);
+					CollisionInfo info(pLeftCol, pRightCol);
+					pLeftCol->EnterCollision(pRightCol, &info);
+					pRightCol->EnterCollision(pLeftCol, &info);
 					iter->second = true;
 				}
 			}
@@ -93,19 +93,49 @@ void CollisionMgr::CollisionGroupUpdate(OBJECT_GROUP _eLeft, OBJECT_GROUP _eRigh
 
 bool CollisionMgr::IsCollision(Collider* _pLeft, Collider* _pRight)
 {
-	// 충돌검사 알고리즘
-	// AABB 
-	Vec2 vLeftPos = _pLeft->GetFinalPos();
-	Vec2 vRightPos = _pRight->GetFinalPos();
-	Vec2 vLeftScale = _pLeft->GetScale();
-	Vec2 vRightScale = _pRight->GetScale();
-	if (abs(vRightPos.x - vLeftPos.x) < (vLeftScale.x + vRightScale.x) / 2.f
-		&& abs(vRightPos.y - vLeftPos.y) < (vLeftScale.y + vRightScale.y) / 2.f)
-	{
-		return true;
+	if (_pLeft->GetType() == _pRight->GetType()) {
+		if (_pLeft->GetType() == COLLIDER_TYPE::RECTANGLE) {
+			RECT tmps;
+			return IntersectRect(&tmps, &(_pLeft->GetRect()), &(_pRight->GetRect()));
+		}
+		else {
+			Vec2 leftPos = _pLeft->GetFinalPos();
+			Vec2 rightPos = _pRight->GetFinalPos();
+
+			float dist = (leftPos - rightPos).Length();
+			return (dist <= (_pLeft->GetScale().x + _pRight->GetScale().x));
+		}
 	}
 
-	return false;
+	Collider* circle;
+	Collider* rectangle;
+
+	if (_pLeft->GetType() == COLLIDER_TYPE::CIRCLE) {
+		circle = _pLeft;
+		rectangle = _pRight;
+	}
+	else {
+		circle = _pRight;
+		rectangle = _pLeft;
+	}
+
+	Vec2 closestPoint = Vec2(circle->GetFinalPos());
+	Vec2 circlePoint = circle->GetFinalPos();
+	float cx = circle->GetFinalPos().x;
+	float cy = circle->GetFinalPos().y;
+	float rx = rectangle->GetFinalPos().x;
+	float ry = rectangle->GetFinalPos().y;
+	float rw = rectangle->GetScale().x;
+	float rh = rectangle->GetScale().y;
+	if (cx < rx)         closestPoint.x = rx;        // left edge
+	else if (cx > rx + rw) closestPoint.x = rx + rw;     // right edge
+
+	if (cy < ry)         closestPoint.y = ry;        // top edge
+	else if (cy > ry + rh) closestPoint.y = ry + rh;     // bottom edge
+
+	float distBetween = (circlePoint - closestPoint).Length();
+
+	return distBetween >= circle->GetScale().x;
 }
 
 void CollisionMgr::CheckGroup(OBJECT_GROUP _eLeft, OBJECT_GROUP _eRight)

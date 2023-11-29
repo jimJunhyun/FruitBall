@@ -38,6 +38,8 @@ bool Core::Init(HWND _hWnd, POINT _ptResolution)
 	ResMgr::GetInst()->Init();
 	SceneMgr::GetInst()->Init();
 	ForceManager::GetInst()->Init();
+	ForceManager::GetInst()->AddForcedGroups(OBJECT_GROUP::FRUIT);
+	ForceManager::GetInst()->SetFloorRes(0.1f);
 
 	return true;
 }

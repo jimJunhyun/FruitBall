@@ -25,13 +25,23 @@ void Fruits::Init(bool rottenMode, FRUITS type, float scale)
 	myTexture = ResMgr::GetInst()->TexLoad(EnumToStringer::GetInst()->GetFruitName(type), fileNameBuffer);
 
 	SetScale(Vec2( myTexture->GetWidth() * scale, myTexture->GetHeight() * scale ));
-	CreateCollider();
-	GetCollider()->SetScale(GetScale());
+	CreateCollider(COLLIDER_TYPE::CIRCLE);
+	GetCollider()->SetScale(Vec2(GetScale().x, GetScale().x));
 }
 
 void Fruits::Update()
 {
 	Object::Update();
+	if (GetPos().x + GetScale().x >= WINDOW_WIDTH) {
+		Vec2 curVel = GetVelocity();
+		curVel.x = -curVel.x;
+		SetVelocity(curVel);
+	}
+	if (GetPos().y + GetScale().y >= WINDOW_HEIGHT) {
+		Vec2 curVel = GetVelocity();
+		curVel.y = -curVel.y;
+		SetVelocity(curVel);
+	}
 }
 
 void Fruits::Render(HDC _dc)
@@ -39,9 +49,14 @@ void Fruits::Render(HDC _dc)
 	TRANSPARENTBLT_INPOS(_dc, myTexture->GetDC(), myTexture);
 }
 
-void Fruits::EnterCollision(Collider* _pOther)
+void Fruits::EnterCollision(Collider* _pOther, CollisionInfo* info)
 {
-	Object::EnterCollision(_pOther);
+	if (_pOther == nullptr)
+		SetDead();
+	else {
+		//Vec2 collidePoint = 
+	}
+	Object::EnterCollision(_pOther, info);
 }
 
 void Fruits::ExitCollision(Collider* _pOther)

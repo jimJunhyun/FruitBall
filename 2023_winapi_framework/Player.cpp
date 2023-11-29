@@ -20,7 +20,7 @@ Player::Player()
 	//m_pTex->Load(strFilePath);
 	//m_pTex = ResMgr::GetInst()->TexLoad(L"Player", L"Texture\\plane.bmp");
 	m_pTex = ResMgr::GetInst()->TexLoad(L"Player", L"Texture\\jiwoo.bmp");
-	CreateCollider();
+	//CreateCollider();
 	GetCollider()->SetScale(Vec2(20.f,30.f));
 	//GetCollider()->SetOffSetPos(Vec2(50.f,0.f));
 	

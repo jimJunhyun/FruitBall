@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "SceneMgr.h"
 #include "Object.h"
+#include "TimeMgr.h"
 
 void ForceManager::Init()
 {
@@ -18,12 +19,13 @@ void ForceManager::Update()
 		
 		for (UINT i = 0; i < selectedGroups.size(); ++i)
 		{
+			
 			Vec2 curObjVel = selectedGroups[i]->GetVelocity();
 			if (curObjVel.Length() == 0) {
 				continue;
 			}
 			
-			curObjVel = curObjVel - (-curObjVel.Normalize()) * (curObjVel.Length() * floorResistance);
+			curObjVel = curObjVel + (-curObjVel * floorResistance * fDT);
 			selectedGroups[i]->SetVelocity(curObjVel);
 		}
 	}

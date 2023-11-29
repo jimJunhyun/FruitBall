@@ -28,4 +28,8 @@ public:							\
 
 #define GETMOUSEPOSITION() KeyMgr::GetInst()->GetMousePos()
 
-#define DRAGTHRESHOLD 140
+#define DRAGTHRESHOLD 75
+
+#define PI 3.14
+#define RAD2DEG 180 / PI
+#define DEG2RAD PI / 180

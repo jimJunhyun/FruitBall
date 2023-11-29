@@ -10,7 +10,7 @@ Bullet::Bullet()
 	, m_pTex(nullptr)
 {
 	m_pTex = ResMgr::GetInst()->TexLoad(L"Bullet", L"Texture\\Bullet.bmp");
-	CreateCollider();
+	//CreateCollider();
 }
 
 Bullet::~Bullet()

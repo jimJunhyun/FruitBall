@@ -173,6 +173,7 @@
     <ClInclude Include="BaseWindow.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="CollisionInfo.h" />
     <ClInclude Include="CollisionMgr.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="define.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="BaseWindow.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="CollisionInfo.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="EnumToStringer.cpp" />
