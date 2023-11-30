@@ -14,7 +14,7 @@ public:
 	void Update() override;
 	void Render(HDC _dc) override;
 
-	virtual void EnterCollision(Collider* _pOther, CollisionInfo* info) override;
+	virtual void EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info) override;
 	virtual void ExitCollision(Collider* _pOther) override;
 
 public:

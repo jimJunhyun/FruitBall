@@ -13,9 +13,9 @@ public:
 	void FinalUpdate();
 	void Render(HDC _dc);
 public:
-	void EnterCollision(Collider* _pOther, CollisionInfo* info);
+	void EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info);
 	void ExitCollision(Collider* _pOther);
-	void StayCollision(Collider* _pOther, CollisionInfo* info);
+	void StayCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info);
 
 	const RECT& GetRect();
 

@@ -64,7 +64,7 @@ void Fruits::Render(HDC _dc)
 	Component_Render(_dc);
 }
 
-void Fruits::EnterCollision(Collider* _pOther, CollisionInfo* info)
+void Fruits::EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
 {
 	if (_pOther == nullptr)
 		SetDead();

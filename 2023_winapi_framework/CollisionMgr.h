@@ -19,7 +19,7 @@ public:
 	void CheckReset();
 private:
 	void CollisionGroupUpdate(OBJECT_GROUP _eLeft, OBJECT_GROUP _eRight);
-	bool IsCollision(Collider* _pLeft, Collider* _pRight, CollisionInfo& outCol);
+	bool IsCollision(Collider* _pLeft, Collider* _pRight, std::shared_ptr<CollisionInfo> outCol);
 private:
 	// 그룹간의 충돌체크할 배열
 	UINT m_arrCheck[(UINT)OBJECT_GROUP::END];

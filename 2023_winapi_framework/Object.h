@@ -14,9 +14,9 @@ public:
 	virtual void Update();
 	virtual void FinalUpdate() final;
 	virtual void Render(HDC _dc);
-	virtual void EnterCollision(Collider* _pOther, CollisionInfo* info);
+	virtual void EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info);
 	virtual void ExitCollision(Collider* _pOther);
-	virtual void StayCollision(Collider* _pOther, CollisionInfo* info);
+	virtual void StayCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info);
 	void Component_Render(HDC _dc);
 public:
 	void SetPos(Vec2 _vPos) { m_vPos = _vPos; }
@@ -52,5 +52,6 @@ private:
 	bool m_IsAlive;
 	Animator* m_pAnimator;
 	float bounciness;
+	std::shared_ptr<CollisionInfo> colliding;
 };
 
