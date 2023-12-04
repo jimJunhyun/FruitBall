@@ -2,8 +2,6 @@
 #include "Start_Scene.h"
 #include "Object.h"
 #include "Core.h"
-#include "Player.h"
-#include "Monster.h"
 #include "KeyMgr.h"
 #include "CollisionMgr.h"
 #include "ResMgr.h"

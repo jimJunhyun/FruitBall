@@ -5,8 +5,9 @@
 #include "Collider.h"
 #include "Animator.h"
 #include "CollisionInfo.h"
+#include "Scene.h"
 
-Object::Object()
+Object::Object(Scene* scene)
 	: m_pCollider(nullptr)
 	, m_vPos{}
 	, m_vScale{}
@@ -14,7 +15,8 @@ Object::Object()
 	, m_pAnimator(nullptr)
 	, m_vVelocity(0, 0)
 	, bounciness(0.7)
-	, colliding (nullptr)
+	, colliding(nullptr)
+	, level(scene)
 {
 }
 
@@ -44,20 +46,8 @@ void Object::Update()
 {
 	if (m_vVelocity.Length() != 0) {
 		Vec2 curVel = GetVelocity();
-		if (colliding == nullptr) {
-			m_vPos.x = m_vPos.x + curVel.x * fDT;
-			m_vPos.y = m_vPos.y + curVel.y * fDT;
-		}
-		else {
-			Vec2 p = (colliding->GetCollidePoint());
-			if ((p.x > 0) != (curVel.x > 0)) {
-				m_vPos.x = m_vPos.x + curVel.x * fDT;
-			}
-			if ((p.y > 0) != (curVel.y > 0)) {
-				m_vPos.y = m_vPos.y + curVel.y * fDT;
-			}
-		}
-		
+		m_vPos.x = m_vPos.x + curVel.x * fDT;
+		m_vPos.y = m_vPos.y + curVel.y * fDT;
 	}
 }
 
@@ -77,11 +67,13 @@ void Object::Render(HDC _dc)
 
 void Object::EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
 {
-	colliding = info;
+	/*colliding = info;
 	if (_pOther == nullptr || info == nullptr)
 		return;
 	Vec2 vel = _pOther->m_pOwner->GetVelocity();
-	AddForce(info->GetCollideNormal(_pOther) * vel.Length() * 0.5f * _pOther->m_pOwner->bounciness);
+	Vec2 myVel = GetVelocity();
+	Vec2 v = (vel * (bounciness + 1) + (myVel * (1 - bounciness))) * 0.5f;
+	SetVelocity(v);*/
 }
 
 void Object::ExitCollision(Collider* _pOther)
@@ -91,14 +83,20 @@ void Object::ExitCollision(Collider* _pOther)
 
 void Object::StayCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
 {
-	colliding = info;
+	/*colliding = info;
 	if (_pOther == nullptr || info == nullptr)
 		return;
-	Vec2 p = (colliding->GetCollidePoint());
+
+	Vec2 vel = _pOther->m_pOwner->GetVelocity();
+	Vec2 myVel = GetVelocity();
+	SetVelocity((vel * (bounciness + 1) + (myVel * (1 - bounciness))) * 0.5f);*/
+
+
+	/*Vec2 p = (colliding->GetCollidePoint());
 	Vec2 curVel = GetVelocity();
 	if ((p.x > GetPos().x) == (curVel.x >0) && (p.y > GetPos().y) == (curVel.y > 0)) {
 		AddForce(info->GetCollideNormal(_pOther) * _pOther->m_pOwner->bounciness);
-	}
+	}*/
 }
 
 void Object::Component_Render(HDC _dc)

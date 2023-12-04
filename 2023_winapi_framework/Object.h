@@ -2,10 +2,12 @@
 class Collider;
 class Animator;
 class CollisionInfo;
+class Scene;
+
 class Object
 {
 public:
-	Object();
+	Object(Scene* scene);
 	virtual ~Object();
 //public:	// 크기, 위치
 	//POINT m_ptPos;
@@ -28,6 +30,7 @@ public:
 	const Vec2& GetScale() const { return m_vScale; }
 	const Vec2& GetVelocity() { return m_vVelocity; }
 	const float& GetBounciness() { return bounciness; }
+	Scene* GetLevel() const { return level; }
 	Collider* GetCollider() const 
 	{ return m_pCollider; }
 	Animator* GetAnimator()
@@ -53,5 +56,6 @@ private:
 	Animator* m_pAnimator;
 	float bounciness;
 	std::shared_ptr<CollisionInfo> colliding;
+	Scene* level;
 };
 

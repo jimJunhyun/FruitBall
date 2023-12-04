@@ -5,7 +5,10 @@ class Fruits :
 	public Object
 {
 public:
-	Fruits(FRUITS type, float scale = 0.3f);
+	Fruits(FRUITS type, float scale = 0.3f, Scene* level = nullptr) : Object(level)
+	{
+		Init(type, scale);
+	}
 	~Fruits();
 
 	void Init(FRUITS type, float scale = 0.3f);
@@ -19,6 +22,7 @@ public:
 
 public:
 	
+	const FRUITS& GetType() const { return fruitMode; }
 
 private:
 
@@ -26,6 +30,6 @@ private:
 
 	Texture* myTexture;
 
-
+	float lifeTime;
 };
 

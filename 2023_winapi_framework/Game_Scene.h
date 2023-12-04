@@ -9,6 +9,10 @@ struct Drag {
     Vec2 endPos;
 
     Vec2 prevCalcPos;
+
+    int combo = 0;
+    int predScore = 0;
+    std::deque<Vec2> linePoses;
 };
 
 class Game_Scene :
@@ -22,10 +26,25 @@ class Game_Scene :
 private:
     float accSec = 0;
     Drag* curDrag;
-    RECT spawnRange;
+    int life;
+    int maxLife =3;
+
+    float lastLinePoint = 45;
+
+    int maxLineCount = 20;
+    float lineThreshold = 0.01f;
+    float accLineT;
 public:
     float spawnSec = 0.5f;
     int maxCnt = 17;
     int curCnt = 0;
+
+    int score;
+    
+
+    const int& GetLife() const { return life; }
+    void SetLife(int value) { life = value; }
+
+    void AddScore(int value) { score += value; }
 };
 

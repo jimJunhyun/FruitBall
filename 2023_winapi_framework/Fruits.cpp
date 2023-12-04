@@ -4,12 +4,8 @@
 #include "EnumToStringer.h"
 #include "Texture.h"
 #include "Collider.h"
-
-
-Fruits::Fruits( FRUITS type, float scale)
-{
-	Init(type, scale);
-}
+#include "TimeMgr.h"
+#include "Game_Scene.h"
 
 Fruits::~Fruits()
 {
@@ -18,6 +14,8 @@ Fruits::~Fruits()
 void Fruits::Init( FRUITS type, float scale)
 {
 	fruitMode = type;
+	lifeTime = 0;
+
 	wchar_t fileNameBuffer[50];
 	wsprintf(fileNameBuffer, L"Texture\\%s.bmp", EnumToStringer::GetInst()->GetFruitName(type).c_str());
 
@@ -56,6 +54,16 @@ void Fruits::Update()
 			AddForce(Vec2(0, 2) * abs(vel.y));
 		}
 	}
+
+	lifeTime += fDT;
+
+	if (lifeTime > FRUITLIFETIME) {
+		SetDead();
+		static_cast<Game_Scene*>(GetLevel())->curCnt -= 1;
+		if (fruitMode == FRUITS::ROTTENFRUIT) {
+			static_cast<Game_Scene*>(GetLevel())->AddScore(20);
+		}
+	}
 }
 
 void Fruits::Render(HDC _dc)
@@ -66,8 +74,10 @@ void Fruits::Render(HDC _dc)
 
 void Fruits::EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
 {
-	if (_pOther == nullptr)
+	if (_pOther == nullptr) {
 		SetDead();
+		static_cast<Game_Scene*>(GetLevel())->curCnt -= 1;
+	}
 	Object::EnterCollision(_pOther, info);
 }
 
