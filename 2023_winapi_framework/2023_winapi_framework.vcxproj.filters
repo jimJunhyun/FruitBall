@@ -166,6 +166,7 @@
     <ClInclude Include="ForceManager.h">
       <Filter>Engine\03. Manager\ForceManager</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2023_winapi_framework.rc">
@@ -262,5 +263,6 @@
     <ClCompile Include="ForceManager.cpp">
       <Filter>Engine\03. Manager\ForceManager</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp" />
   </ItemGroup>
 </Project>
