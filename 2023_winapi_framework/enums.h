@@ -27,6 +27,7 @@ enum class OBJECT_GROUP
 	BULLET,
 	MONSTER,
 	FRUIT,
+	UI,
 	END = 30
 };
 

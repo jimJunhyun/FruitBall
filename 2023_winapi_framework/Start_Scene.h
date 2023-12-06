@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "Button.h"
 class Start_Scene :
 	public Scene
 {
@@ -10,8 +11,8 @@ public:
 	virtual void Release() override;
 
 private:
-	RECT rt;
-	RECT start_btn{ 10,100,200,200 };
-	RECT exit_btn{};
+	Button* Btn1;
+	Button* Btn2;
+	Button* Btn3;
 };
 
