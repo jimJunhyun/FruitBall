@@ -10,8 +10,6 @@ Button::Button(void(*_action)(), wstring _text)
 {
 	m_pAction = _action;
 	m_sText = _text;
-
-
 }
 
 Button::~Button()
