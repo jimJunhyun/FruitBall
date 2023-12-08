@@ -3,6 +3,7 @@ class Collider;
 class Animator;
 class CollisionInfo;
 class Scene;
+class TimeMgr;
 
 class Object
 {
@@ -31,6 +32,8 @@ public:
 	const Vec2& GetVelocity() { return m_vVelocity; }
 	const float& GetBounciness() { return bounciness; }
 	Scene* GetLevel() const { return level; }
+	const float& GetMyDT() const;
+	const float& GetUnscaledDT() const;
 	Collider* GetCollider() const 
 	{ return m_pCollider; }
 	Animator* GetAnimator()

@@ -20,11 +20,15 @@ public:
 	virtual void EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info) override;
 	virtual void ExitCollision(Collider* _pOther) override;
 
+	void Pause() { pauseMode = true; }
+	void Resume() { pauseMode = false; }
+
 public:
 	
 	const FRUITS& GetType() const { return fruitMode; }
 
 private:
+	bool pauseMode = false;
 
 	FRUITS fruitMode;
 

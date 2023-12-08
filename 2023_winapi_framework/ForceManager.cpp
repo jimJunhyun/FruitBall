@@ -25,7 +25,7 @@ void ForceManager::Update()
 				continue;
 			}
 			
-			curObjVel = curObjVel + (-curObjVel * floorResistance * fDT);
+			curObjVel = curObjVel + (-curObjVel * floorResistance * selectedGroups[i]->GetMyDT());
 			selectedGroups[i]->SetVelocity(curObjVel);
 		}
 	}

@@ -1,10 +1,11 @@
 #pragma once
 #include "Scene.h"
 
+class Texture;
 struct Drag {
     Vec2 startPos;
     bool isPassed;
-    //std::set<Object*> passedObjs;
+    std::set<Object*> passedObjs;
     float moveDist;
     Vec2 endPos;
 
@@ -34,6 +35,25 @@ private:
     int maxLineCount = 20;
     float lineThreshold = 0.01f;
     float accLineT;
+
+    bool slash = false;
+    float slashGap = 0.05f;
+    float accSlashSec;
+
+    int slashCount = 0;
+
+    float fadeSec;
+    float curFadeSec;
+
+    Texture* heartTex;
+    Texture* emptyHeartTex;
+    Vec2 heartSize;
+    float heartScale;
+    float heartGap;
+    Vec2 heartUIStart;
+
+    Texture* focusModeTex;
+    Texture* backgroundTex;
 public:
     float spawnSec = 0.5f;
     int maxCnt = 17;
@@ -41,9 +61,12 @@ public:
 
     int score;
     
+    
 
     const int& GetLife() const { return life; }
     void SetLife(int value) { life = value; }
+
+    void DecreaseLife(int value);
 
     void AddScore(int value) { score += value; }
 };

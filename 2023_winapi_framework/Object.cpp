@@ -46,8 +46,8 @@ void Object::Update()
 {
 	if (m_vVelocity.Length() != 0) {
 		Vec2 curVel = GetVelocity();
-		m_vPos.x = m_vPos.x + curVel.x * fDT;
-		m_vPos.y = m_vPos.y + curVel.y * fDT;
+		m_vPos.x = m_vPos.x + curVel.x * GetMyDT();
+		m_vPos.y = m_vPos.y + curVel.y * GetMyDT();
 	}
 }
 
@@ -111,4 +111,14 @@ void Object::Component_Render(HDC _dc)
 	if (nullptr != m_pAnimator)
 		m_pAnimator->Render(_dc);
 
+}
+
+const float& Object::GetMyDT() const
+{
+	return fDT * level->GetTimescale();
+}
+
+const float& Object::GetUnscaledDT() const
+{
+	return fDT;
 }

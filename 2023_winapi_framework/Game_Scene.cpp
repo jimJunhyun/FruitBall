@@ -9,6 +9,9 @@
 #include "ForceManager.h"
 #include "SelectGDI.h"
 #include "Core.h"
+#include "ResMgr.h"
+#include "Texture.h"
+#include "SceneMgr.h"
 
 void Game_Scene::Init()
 {
@@ -17,6 +20,16 @@ void Game_Scene::Init()
 	curDrag = nullptr;
 	srand((unsigned int)time(NULL));
 	CollisionMgr::GetInst()->CheckGroup(OBJECT_GROUP::FRUIT, OBJECT_GROUP::FRUIT);
+	heartTex = ResMgr::GetInst()->TexLoad(L"Heart", L"Texture\\HeartBitmap.bmp");
+	emptyHeartTex = ResMgr::GetInst()->TexLoad(L"EmptyHeart", L"Texture\\HeartBitmapEmpty.bmp");
+	heartScale = 0.2f;
+	heartSize = Vec2( heartTex->GetWidth(), heartTex->GetHeight()) * heartScale;
+	heartGap = 35;
+	heartUIStart = { (float)(WINDOW_WIDTH) - ((heartSize.x + heartGap) * maxLife), 0.0f };
+	fadeSec = 1.0f;
+
+	focusModeTex = ResMgr::GetInst()->TexLoad(L"FocusMode", L"Texture\\FocusMode.bmp");
+	backgroundTex = ResMgr::GetInst()->TexLoad(L"BackGround", L"Texture\\Poolball.bmp");
 }
 
 void Game_Scene::Update()
@@ -28,7 +41,7 @@ void Game_Scene::Update()
 			accSec = 0;
 			Fruits* fruit = new Fruits( static_cast<FRUITS>(rand() % (int)FRUITS::MAX), 0.1f, this);
 			fruit->SetPos({ rand() % 1280, rand() % 720 });
-			fruit->SetVelocity({(1 - (rand() % 3)) * 400 + 200, (1 - (rand() % 3)) * 400 + 200});
+			fruit->SetVelocity({(1 - (rand() % 3)) * 1000 + 600, (1 - (rand() % 3)) * 1000 + 600});
 
 			AddObject(fruit, OBJECT_GROUP::FRUIT);
 			++curCnt;
@@ -43,6 +56,9 @@ void Game_Scene::Update()
 		curDrag->moveDist = 0;
 	}
 	if (KEY_PRESS(KEY_TYPE::LBUTTON)) {
+		curFadeSec += fDT;
+		curFadeSec = min(curFadeSec, fadeSec);
+		SetTimescale(1 - (curFadeSec / fadeSec) * 0.75f);
 		if (curDrag) {
 			accLineT += fDT;
 
@@ -70,45 +86,64 @@ void Game_Scene::Update()
 					if (colScale.x >= dist) {
 
 						curDrag->isPassed = true;
-						fruits[i]->EnterCollision(nullptr, nullptr);
+						Fruits* fruit = static_cast<Fruits*>(fruits[i]);
+						if (fruit) {
+							fruit->Pause();
+							if (curDrag->passedObjs.insert(fruit).second) {
+								if (fruit->GetType() == FRUITS::ROTTENFRUIT) {
+									score -= 100;
+									DecreaseLife(1);
+								}
+								else {
+									curDrag->combo += 1;
+									Vec2 v = fruits[i]->GetVelocity();
+									curDrag->predScore += v.Length() * 2;
+								}
+							}
+							
+						}
 
-						if (static_cast<Fruits*>(fruits[i])->GetType() == FRUITS::ROTTENFRUIT) {
-							score -= 100;
-							life -= 1;
-						}
-						else {
-							curDrag->combo += 1;
-							Vec2 v = fruits[i]->GetVelocity();
-							curDrag->predScore += v.Length() * 2;
-						}
+						
 						
 						
 					}
 				}
 			}
-			
-
 		}
-		
 	}
 	if (KEY_UP(KEY_TYPE::LBUTTON)) {
+		curFadeSec = 0;
+		SetTimescale(1);
 		if (curDrag) {
 			curDrag->endPos = GETMOUSEPOSITION();
 			
 			score += max((curDrag->combo * 2) * curDrag->predScore / (curDrag->moveDist * 0.05f), 0);
 
 			lastLinePoint = 0;
-			curDrag = nullptr;
+
+			slash = true;
+			
+			
 		}
 	}
+	
 }
 
 void Game_Scene::Render(HDC _dc)
 {
+	StretchBlt(_dc, -1, -1, WINDOW_WIDTH + 1, WINDOW_HEIGHT + 1, backgroundTex->GetDC(), 0, 0, backgroundTex->GetWidth(), backgroundTex->GetHeight(), SRCCOPY);
+
 	if (curDrag) {
-		HBRUSH b = (HBRUSH)GetStockObject(GRAY_BRUSH);
+		HBRUSH b = (HBRUSH)CreateSolidBrush(RGB(0, 0, 0));
 		HBRUSH prevBrush = (HBRUSH)SelectObject(_dc, b);
 		RECT_RENDER(-1, -1, WINDOW_WIDTH + 1, WINDOW_HEIGHT + 1, _dc);
+		BLENDFUNCTION bf;
+		bf.AlphaFormat = 0;
+		bf.BlendOp = AC_SRC_OVER;
+		bf.BlendFlags = 0;
+		bf.SourceConstantAlpha = 128 * (curFadeSec / fadeSec);
+		AlphaBlend(_dc, 0, 0, WINDOW_WIDTH , WINDOW_HEIGHT , focusModeTex->GetDC(), 0, 0, focusModeTex->GetWidth(), focusModeTex->GetHeight(), bf);
+
 		SelectObject(_dc, prevBrush);
 		DeleteObject(b);
 
@@ -127,17 +162,43 @@ void Game_Scene::Render(HDC _dc)
 		DeleteObject(p);
 		SelectObject(_dc, prevPen);
 	}
+
+	if (slash) {
+		std::set<Object*>::iterator slashIter = curDrag->passedObjs.begin();
+		accSlashSec += fDT;
+		if (accSlashSec > slashGap) {
+			slashCount += 1;
+			if (slashCount > curDrag->passedObjs.size()) {
+				
+			}
+		}
+		MoveToEx(_dc, curDrag->startPos.x, curDrag->startPos.y	, nullptr);
+		for (int i = 0; i < slashCount; i++)
+		{
+			LineTo(_dc, (*slashIter)->GetPos().x, (*slashIter)->GetPos().y);
+
+		}
+		//마지막 위치로 긋기
+		//펜사이즈 변경해서 부드럽게
+		/*else {
+			LineTo(_dc, curDrag->endPos.x, curDrag->endPos.y);
+			curDrag = nullptr;
+			slash = false;
+		}*/
+	}
+
 	wchar_t buffer[50];
 	wsprintf(buffer, L"Score : %d", score);
 	TextOut(_dc, 20, 20, buffer, wcslen(buffer));
 	
 	for (int i = 0; i < maxLife; i++)
 	{
+		Vec2 pos(heartUIStart + Vec2(i * (heartGap + heartSize.x), 0.0f));
 		if (i < life) {
-
+			TransparentBlt(_dc, pos.x, pos.y, heartSize.x, heartSize.y, heartTex->GetDC(), 0, 0,heartTex->GetWidth(),heartTex->GetHeight(), RGB(255, 0, 255));
 		}
 		else {
-
+			TransparentBlt(_dc, pos.x, pos.y, heartSize.x, heartSize.y, emptyHeartTex->GetDC(), 0, 0, heartTex->GetWidth(), heartTex->GetHeight(), RGB(255, 0, 255));
 		}
 	}
 
@@ -148,4 +209,13 @@ void Game_Scene::Release()
 {
 	Scene::Release();
 	CollisionMgr::GetInst()->CheckReset();
+}
+
+void Game_Scene::DecreaseLife(int value)
+{
+	life -= value;
+	if (life <= 0) {
+
+		//SceneMgr::GetInst()->LoadScene(L"GameOverScene");
+	}
 }

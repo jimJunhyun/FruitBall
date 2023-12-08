@@ -29,41 +29,44 @@ void Fruits::Init( FRUITS type, float scale)
 
 void Fruits::Update()
 {
-	Object::Update();
-	if (GetPos().x + GetScale().x >= WINDOW_WIDTH) {
-		Vec2 vel = GetVelocity();
-		if (vel.x > 0) {
-			AddForce(Vec2(-2, 0) * abs(vel.x));
+	if (!pauseMode) {
+		Object::Update();
+		if (GetPos().x + GetScale().x >= WINDOW_WIDTH) {
+			Vec2 vel = GetVelocity();
+			if (vel.x > 0) {
+				AddForce(Vec2(-2, 0) * abs(vel.x));
+			}
 		}
-	}
-	else if (GetPos().x <= 0) {
-		Vec2 vel = GetVelocity();
-		if (vel.x < 0) {
-			AddForce(Vec2(2, 0) * abs(vel.x));
+		else if (GetPos().x <= 0) {
+			Vec2 vel = GetVelocity();
+			if (vel.x < 0) {
+				AddForce(Vec2(2, 0) * abs(vel.x));
+			}
 		}
-	}
-	if (GetPos().y + GetScale().y >= WINDOW_HEIGHT) {
-		Vec2 vel = GetVelocity();
-		if (vel.y > 0) {
-			AddForce(Vec2(0, -2) * abs(vel.y));
+		if (GetPos().y + GetScale().y >= WINDOW_HEIGHT) {
+			Vec2 vel = GetVelocity();
+			if (vel.y > 0) {
+				AddForce(Vec2(0, -2) * abs(vel.y));
+			}
 		}
-	}
-	else if (GetPos().y <= 0) {
-		Vec2 vel = GetVelocity();
-		if (vel.y < 0) {
-			AddForce(Vec2(0, 2) * abs(vel.y));
+		else if (GetPos().y <= 0) {
+			Vec2 vel = GetVelocity();
+			if (vel.y < 0) {
+				AddForce(Vec2(0, 2) * abs(vel.y));
+			}
 		}
-	}
 
-	lifeTime += fDT;
+		lifeTime += fDT * static_cast<Game_Scene*>(GetLevel())->GetTimescale();
 
-	if (lifeTime > FRUITLIFETIME) {
-		SetDead();
-		static_cast<Game_Scene*>(GetLevel())->curCnt -= 1;
-		if (fruitMode == FRUITS::ROTTENFRUIT) {
-			static_cast<Game_Scene*>(GetLevel())->AddScore(20);
+		if (lifeTime > FRUITLIFETIME) {
+			SetDead();
+			static_cast<Game_Scene*>(GetLevel())->curCnt -= 1;
+			if (fruitMode == FRUITS::ROTTENFRUIT) {
+				static_cast<Game_Scene*>(GetLevel())->AddScore(20);
+			}
 		}
 	}
+	
 }
 
 void Fruits::Render(HDC _dc)
