@@ -1,5 +1,8 @@
 #pragma once
 
+/// <summary>
+/// 
+/// </summary>
 class Collider;
 class CollisionInfo
 {
@@ -12,7 +15,7 @@ public:
 	const Collider* GetRightCol() const { return rht; }
 
 	const Vec2 GetCollidePoint() const { return point; }
-	 Vec2 GetCollideNormal(Collider* relativeTo);
+	Vec2 GetCollideNormal(Collider* relativeTo);
 
 	void SetPos(Vec2 val) { point = val; }
 private:
