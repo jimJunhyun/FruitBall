@@ -171,6 +171,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Animator.h" />
     <ClInclude Include="BaseWindow.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionInfo.h" />
     <ClInclude Include="CollisionMgr.h" />
@@ -179,9 +180,11 @@
     <ClInclude Include="enums.h" />
     <ClInclude Include="EnumToStringer.h" />
     <ClInclude Include="EventMgr.h" />
+    <ClInclude Include="Explain_Scene.h" />
     <ClInclude Include="ForceManager.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Fruits.h" />
+    <ClInclude Include="Gameover_Scene.h" />
     <ClInclude Include="Game_Scene.h" />
     <ClInclude Include="KeyMgr.h" />
     <ClInclude Include="Object.h" />
@@ -195,6 +198,7 @@
     <ClInclude Include="SelectGDI.h" />
     <ClInclude Include="Start_Scene.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TextBox.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TimeMgr.h" />
     <ClInclude Include="Vec2.h" />
@@ -203,14 +207,17 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="BaseWindow.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionInfo.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="EnumToStringer.cpp" />
     <ClCompile Include="EventMgr.cpp" />
+    <ClCompile Include="Explain_Scene.cpp" />
     <ClCompile Include="ForceManager.cpp" />
     <ClCompile Include="Fruits.cpp" />
+    <ClCompile Include="Gameover_Scene.cpp" />
     <ClCompile Include="Game_Scene.cpp" />
     <ClCompile Include="KeyMgr.cpp" />
     <ClCompile Include="main.cpp" />
@@ -222,6 +229,7 @@
     <ClCompile Include="SceneMgr.cpp" />
     <ClCompile Include="SelectGDI.cpp" />
     <ClCompile Include="Start_Scene.cpp" />
+    <ClCompile Include="TextBox.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeMgr.cpp" />
     <ClCompile Include="Vec2.cpp" />

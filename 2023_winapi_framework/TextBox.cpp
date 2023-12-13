@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "TextBox.h"
 
-TextBox::TextBox(wstring _text, int _size)
+TextBox::TextBox(wstring _text, int _size, Scene* level) 
+	: Object(level)
 {
 	m_sText = _text;
 	m_iSize = _size;

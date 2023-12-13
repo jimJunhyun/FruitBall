@@ -1,10 +1,13 @@
 #pragma once
 #include "Object.h"
+
+class Scene;
+
 class TextBox :
 	public Object
 {
 public:
-	TextBox(wstring _text, int _size);
+	TextBox(wstring _text, int _size, Scene* level = nullptr);
 	~TextBox();
 
 public:
