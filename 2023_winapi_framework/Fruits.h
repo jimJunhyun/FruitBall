@@ -18,6 +18,7 @@ public:
 	void Render(HDC _dc) override;
 
 	virtual void EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info) override;
+
 	virtual void ExitCollision(Collider* _pOther) override;
 
 	void Pause() { pauseMode = true; }
