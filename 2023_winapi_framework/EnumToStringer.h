@@ -3,7 +3,7 @@ class EnumToStringer
 {
 	SINGLE(EnumToStringer)
 
-	inline wstring GetFruitName(FRUITS type) {
+		inline wstring GetFruitName(FRUITS type) {
 		switch (type)
 		{
 		case FRUITS::WATERMELON:
@@ -22,8 +22,8 @@ class EnumToStringer
 			return L"RASPBERRY";
 		case FRUITS::REDAPPLE:
 			return L"REDAPPLE";
-		default:
-			return L"";
+		case FRUITS::ROTTENFRUIT:
+			return L"ROTTENFRUIT";
 		}
 	}
 };
