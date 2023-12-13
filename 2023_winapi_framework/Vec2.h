@@ -21,6 +21,10 @@ public:
 		y /= fLen;
 		return *this;
 	}
+	Vec2& Normalized() {
+		Vec2 v(*this);
+		return v.Normalize();
+	}
 	Vec2 operator + (Vec2 _vOther)
 	{
 		return Vec2(x + _vOther.x, y + _vOther.y);
@@ -42,8 +46,16 @@ public:
 	{
 		return Vec2(x * (float)_i, y * (float)_i);
 	}
+	Vec2 operator * (float _i)
+	{
+		return Vec2(x * _i, y * _i);
+	}
 	Vec2 operator - () {
 		return Vec2(-x, -y);
+	}
+
+	float Dotproduct(Vec2 other) {
+		return x * other.x + y * other.y;
 	}
 public:
 	float x;
