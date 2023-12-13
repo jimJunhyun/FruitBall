@@ -2,11 +2,13 @@
 #include "Object.h"
 #include "Texture.h"
 
+class Scene;
+
 class Button :
     public Object
 {
 public:
-    Button(void(*_action)(), wstring _text);
+    Button(void(*_action)(), wstring _text, Scene* level = nullptr);
     ~Button();
 
 public:

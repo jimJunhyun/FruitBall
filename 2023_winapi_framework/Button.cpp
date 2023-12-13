@@ -5,8 +5,9 @@
 #include <string>
 #include "SceneMgr.h"
 
-Button::Button(void(*_action)(), wstring _text)
-	: m_pTex(nullptr)
+Button::Button(void(*_action)(), wstring _text, Scene* level) 
+	: Object(level)
+	, m_pTex(nullptr)
 {
 	m_pAction = _action;
 	m_sText = _text;
