@@ -18,7 +18,6 @@ public:
 	virtual void FinalUpdate() final;
 
 	virtual void Render(HDC _dc);
-
 	virtual void EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info);
 
 	virtual void ExitCollision(Collider* _pOther);
