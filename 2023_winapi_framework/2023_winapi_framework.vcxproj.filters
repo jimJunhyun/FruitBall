@@ -190,6 +190,9 @@
     <ClInclude Include="TextBox.h">
       <Filter>Engine\04. Object\MainObject</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionInfo.h">
+      <Filter>Engine\08. Module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2023_winapi_framework.rc">
@@ -309,6 +312,9 @@
     </ClCompile>
     <ClCompile Include="TextBox.cpp">
       <Filter>Engine\04. Object\MainObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionInfo.cpp">
+      <Filter>Engine\08. Module</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
