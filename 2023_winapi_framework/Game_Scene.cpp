@@ -40,20 +40,21 @@ void Game_Scene::Update()
 		if (accSec > spawnSec) {
 			accSec = 0;
 			Fruits* fruit = new Fruits( static_cast<FRUITS>(rand() % (int)FRUITS::MAX), 0.1f, this);
-			fruit->SetPos({ rand() % 1280, rand() % 720 });
-			fruit->SetVelocity({(1 - (rand() % 3)) * 1000 + 600, (1 - (rand() % 3)) * 1000 + 600});
+			fruit->SetPos({ rand() % 1280, 360 + rand() % 360 });
+			fruit->SetVelocity({(1 - (rand() % 3)) * 1000 + 600, -1000});
 
 			AddObject(fruit, OBJECT_GROUP::FRUIT);
 			++curCnt;
 		}
 	}
 	
-	
-	if (KEY_DOWN(KEY_TYPE::LBUTTON)) {
-		curDrag = new Drag;
-		curDrag->startPos = GETMOUSEPOSITION();
-		curDrag->prevCalcPos = curDrag->startPos;
-		curDrag->moveDist = 0;
+	if (!curDrag) {
+		if (KEY_DOWN(KEY_TYPE::LBUTTON)) {
+			curDrag = new Drag;
+			curDrag->startPos = GETMOUSEPOSITION();
+			curDrag->prevCalcPos = curDrag->startPos;
+			curDrag->moveDist = 0;
+		}
 	}
 	if (KEY_PRESS(KEY_TYPE::LBUTTON)) {
 		curFadeSec += fDT;
@@ -76,7 +77,7 @@ void Game_Scene::Update()
 
 			if (curDrag->moveDist > DRAGTHRESHOLD) {
 				vector<Object*> fruits = GetGroupObject(OBJECT_GROUP::FRUIT);
-				
+
 				for (UINT i = 0; i < fruits.size(); i++)
 				{
 					Vec2 pos = fruits[i]->GetCollider()->GetFinalPos();
@@ -100,12 +101,12 @@ void Game_Scene::Update()
 									curDrag->predScore += v.Length() * 2;
 								}
 							}
-							
+
 						}
 
-						
-						
-						
+
+
+
 					}
 				}
 			}
@@ -116,17 +117,19 @@ void Game_Scene::Update()
 		SetTimescale(1);
 		if (curDrag) {
 			curDrag->endPos = GETMOUSEPOSITION();
-			
+
 			score += max((curDrag->combo * 2) * curDrag->predScore / (curDrag->moveDist * 0.05f), 0);
 
 			lastLinePoint = 0;
-
-			slash = true;
-			
-			
+			if (curDrag->passedObjs.size() > 0) {
+				slash = true;
+			}
+			else {
+				curDrag = nullptr;
+			}
 		}
-	}
-	
+		
+	}	
 }
 
 void Game_Scene::Render(HDC _dc)
@@ -163,28 +166,48 @@ void Game_Scene::Render(HDC _dc)
 		SelectObject(_dc, prevPen);
 	}
 
-	if (slash) {
+	if (slash && curDrag) {
 		std::set<Object*>::iterator slashIter = curDrag->passedObjs.begin();
 		accSlashSec += fDT;
 		if (accSlashSec > slashGap) {
-			slashCount += 1;
 			if (slashCount > curDrag->passedObjs.size()) {
 				
+				slash = false;
 			}
+			else {
+				slashCount += 1;
+			}
+			accSlashSec = 0;
 		}
-		MoveToEx(_dc, curDrag->startPos.x, curDrag->startPos.y	, nullptr);
-		for (int i = 0; i < slashCount; i++)
-		{
-			LineTo(_dc, (*slashIter)->GetPos().x, (*slashIter)->GetPos().y);
 
+		HPEN p = CreatePen(PS_DASH, slashCount, RGB(200, 200, 200));
+		HPEN prev =  (HPEN)SelectObject(_dc, p);
+		MoveToEx(_dc, curDrag->startPos.x, curDrag->startPos.y	, nullptr);
+		for (int i = slashCount; i > 0; i--)
+		{
+			HPEN slasher = CreatePen(PS_DASH, max(25 - i * 4, 1), RGB(200, 200, 200));
+			SelectObject(_dc, slasher);
+			if (slashIter != curDrag->passedObjs.end()) {
+				LineTo(_dc, (*slashIter)->GetPos().x, (*slashIter)->GetPos().y);
+				(*slashIter)->EnterCollision(nullptr, nullptr);
+				++slashIter;
+			}
+			else {
+				LineTo(_dc, curDrag->endPos.x, curDrag->endPos.y);
+			}
+			DeleteObject(slasher);
 		}
-		//마지막 위치로 긋기
-		//펜사이즈 변경해서 부드럽게
-		/*else {
-			LineTo(_dc, curDrag->endPos.x, curDrag->endPos.y);
-			curDrag = nullptr;
-			slash = false;
-		}*/
+		SelectObject(_dc, prev);
+		DeleteObject(p);
+	}
+	else if (curDrag && slashCount > curDrag->passedObjs.size()) {
+		slashCount = 0;
+		for (std::set<Object*>::iterator i =curDrag->passedObjs.begin(); i != curDrag->passedObjs.end(); i++)
+		{
+			(*i)->EnterCollision(nullptr, nullptr);
+		}
+
+		curDrag = nullptr;
 	}
 
 	wchar_t buffer[50];

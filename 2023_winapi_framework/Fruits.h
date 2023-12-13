@@ -23,6 +23,8 @@ public:
 	void Pause() { pauseMode = true; }
 	void Resume() { pauseMode = false; }
 
+	void SetDead() override;
+
 public:
 	
 	const FRUITS& GetType() const { return fruitMode; }
@@ -35,5 +37,7 @@ private:
 	Texture* myTexture;
 
 	float lifeTime;
+
+	int bounceCount = 2;
 };
 

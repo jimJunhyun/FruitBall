@@ -14,7 +14,7 @@ Object::Object(Scene* scene)
 	, m_IsAlive(true)
 	, m_pAnimator(nullptr)
 	, m_vVelocity(0, 0)
-	, bounciness(0.7)
+	, bounciness(0.9)
 	, colliding(nullptr)
 	, level(scene)
 {

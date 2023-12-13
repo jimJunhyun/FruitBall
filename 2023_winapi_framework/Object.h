@@ -44,7 +44,7 @@ public:
 	void SetName(wstring _name) { m_strName = _name; }
 	bool GetIsDead() const { return !m_IsAlive; }
 protected:
-	void SetDead() { m_IsAlive = false; }
+	virtual void SetDead() { m_IsAlive = false; }
 	friend class EventMgr;
 public:
 	void CreateCollider(COLLIDER_TYPE type);

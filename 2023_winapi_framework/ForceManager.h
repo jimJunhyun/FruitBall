@@ -16,10 +16,11 @@ public:
 	void SetFloorRes(float val) { floorResistance = val; }
 	const float& GetFloorRes() const { return floorResistance; }
 
+	const float GRAVITY = 980.0f;
+
 private:
 	std::set<OBJECT_GROUP> forcedGroups;
 
 	float floorResistance;
-	
 };
 

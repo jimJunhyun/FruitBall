@@ -44,23 +44,17 @@ void Fruits::Update()
 			}
 		}
 		if (GetPos().y + GetScale().y >= WINDOW_HEIGHT) {
-			Vec2 vel = GetVelocity();
-			if (vel.y > 0) {
-				AddForce(Vec2(0, -2) * abs(vel.y));
-			}
-		}
-		else if (GetPos().y <= 0) {
-			Vec2 vel = GetVelocity();
-			if (vel.y < 0) {
-				AddForce(Vec2(0, 2) * abs(vel.y));
+			if (bounceCount > 0) {
+				Vec2 vel = GetVelocity();
+				if (vel.y > 0) {
+					AddForce(Vec2(0, -2) * abs(vel.y) * GetBounciness());
+					--bounceCount;
+				}
 			}
 		}
 
-		lifeTime += fDT * static_cast<Game_Scene*>(GetLevel())->GetTimescale();
-
-		if (lifeTime > FRUITLIFETIME) {
+		if (GetPos().y >= WINDOW_HEIGHT) {
 			SetDead();
-			static_cast<Game_Scene*>(GetLevel())->curCnt -= 1;
 			if (fruitMode == FRUITS::ROTTENFRUIT) {
 				static_cast<Game_Scene*>(GetLevel())->AddScore(20);
 			}
@@ -79,7 +73,9 @@ void Fruits::EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> in
 {
 	if (_pOther == nullptr) {
 		SetDead();
-		static_cast<Game_Scene*>(GetLevel())->curCnt -= 1;
+		if (fruitMode == FRUITS::ROTTENFRUIT) {
+			static_cast<Game_Scene*>(GetLevel())->DecreaseLife(1);
+		}
 	}
 	Object::EnterCollision(_pOther, info);
 }
@@ -87,4 +83,10 @@ void Fruits::EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> in
 void Fruits::ExitCollision(Collider* _pOther)
 {
 	Object::ExitCollision(_pOther);
+}
+
+void Fruits::SetDead()
+{
+	Object::SetDead();
+	static_cast<Game_Scene*>(GetLevel())->curCnt -= 1;
 }

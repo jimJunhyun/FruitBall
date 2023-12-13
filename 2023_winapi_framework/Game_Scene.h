@@ -37,7 +37,7 @@ private:
     float accLineT;
 
     bool slash = false;
-    float slashGap = 0.05f;
+    float slashGap = 0.08;
     float accSlashSec;
 
     int slashCount = 0;
