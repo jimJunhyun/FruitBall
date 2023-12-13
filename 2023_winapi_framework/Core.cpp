@@ -18,7 +18,7 @@ bool Core::Init(HWND _hWnd, POINT _ptResolution)
 
 
 	// 더블버퍼링
-	m_hDC = GetDC(m_hWnd);	
+	m_hDC = GetDC(m_hWnd);
 	// 1. 생성
 	m_hbackbit = CreateCompatibleBitmap(m_hDC, m_ptResolution.x, m_ptResolution.y);
 	m_hbackDC = CreateCompatibleDC(m_hDC);
@@ -26,9 +26,9 @@ bool Core::Init(HWND _hWnd, POINT _ptResolution)
 	// 2. 연결
 	SelectObject(m_hbackDC, m_hbackbit);
 
-//	m_obj.SetPos(Vec2({ m_ptResolution.x / 2, m_ptResolution.y / 2 }));
-////	m_obj.m_ptPos = ;
-//	m_obj.SetScale(Vec2(150, 150));
+	//	m_obj.SetPos(Vec2({ m_ptResolution.x / 2, m_ptResolution.y / 2 }));
+	////	m_obj.m_ptPos = ;
+	//	m_obj.SetScale(Vec2(150, 150));
 
 	CreateGDI();
 	// ==== Manager Init ====
@@ -38,13 +38,16 @@ bool Core::Init(HWND _hWnd, POINT _ptResolution)
 	ResMgr::GetInst()->Init();
 	SceneMgr::GetInst()->Init();
 	ForceManager::GetInst()->Init();
+	ForceManager::GetInst()->AddForcedGroups(OBJECT_GROUP::FRUIT);
+	ForceManager::GetInst()->SetFloorRes(0.01f);
+	CollisionMgr::GetInst()->CheckGroup(OBJECT_GROUP::FRUIT, OBJECT_GROUP::FRUIT);
 
 	return true;
 }
 
 void Core::GameLoop()
 {
-	
+
 	Update();
 	Render();
 }
@@ -79,8 +82,8 @@ void Core::Render()
 	//TextOut(m_hbackDC, 10, 10, mousebuf, wcslen(mousebuf));
 
 	// 3. 옮긴다.
-	BitBlt(m_hDC, 0,0, m_ptResolution.x, m_ptResolution.y, 
-		m_hbackDC, 0,0, SRCCOPY);
+	BitBlt(m_hDC, 0, 0, m_ptResolution.x, m_ptResolution.y,
+		m_hbackDC, 0, 0, SRCCOPY);
 	EventMgr::GetInst()->Update();
 
 
