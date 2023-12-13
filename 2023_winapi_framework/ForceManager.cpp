@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "SceneMgr.h"
 #include "Object.h"
+#include "TimeMgr.h"
 
 void ForceManager::Init()
 {
@@ -15,15 +16,18 @@ void ForceManager::Update()
 	{
 		std::shared_ptr<Scene> curScene = SceneMgr::GetInst()->GetCurScene();
 		const vector<Object*> selectedGroups = curScene->GetGroupObject(*iter);
-		
+
 		for (UINT i = 0; i < selectedGroups.size(); ++i)
 		{
+
 			Vec2 curObjVel = selectedGroups[i]->GetVelocity();
 			if (curObjVel.Length() == 0) {
 				continue;
 			}
-			
-			curObjVel = curObjVel - (-curObjVel.Normalize()) * (curObjVel.Length() * floorResistance);
+
+			curObjVel = curObjVel + (-curObjVel * floorResistance * selectedGroups[i]->GetMyDT());
+			float gr = GRAVITY * selectedGroups[i]->GetMyDT();
+			curObjVel.y += gr;
 			selectedGroups[i]->SetVelocity(curObjVel);
 		}
 	}
