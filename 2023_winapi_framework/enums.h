@@ -51,6 +51,13 @@ enum class EVENT_TYPE
 	END
 };
 
+
+enum class COLLIDER_TYPE {
+	RECTANGLE,
+	CIRCLE
+};
+
+
 enum class FRUITS {
 	WATERMELON,
 	STARFRUIT,
@@ -59,7 +66,7 @@ enum class FRUITS {
 	ORANGE,
 	RASPBERRY,
 	REDAPPLE,
-
+	ROTTENFRUIT,
 
 	MAX
 };
