@@ -17,13 +17,18 @@ public:
 	{
 		return m_vecObj[(UINT)_etype];
 	}
+	const float& GetTimescale() { return timeScale; }
+	void SetTimescale(float val) { timeScale = val; }
 public:
 	void AddObject(Object* _pObj, OBJECT_GROUP _eType)
 	{
 		m_vecObj[(UINT)_eType].push_back(_pObj);
 	}
+
+
 private:
-//	Object*  m_obj;
+	//	Object*  m_obj;
 	vector<Object*> m_vecObj[(UINT)OBJECT_GROUP::END];
+	float timeScale = 1;
 };
 
