@@ -1,6 +1,5 @@
 #pragma once
 class Object;
-class CollisionInfo;
 
 class Collider
 {
@@ -13,9 +12,9 @@ public:
 	void FinalUpdate();
 	void Render(HDC _dc);
 public:
-	void EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info);
+	void EnterCollision(Collider* _pOther);
 	void ExitCollision(Collider* _pOther);
-	void StayCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info);
+	void StayCollision(Collider* _pOther);
 
 	const RECT& GetRect();
 
@@ -28,7 +27,6 @@ public:
 	const Vec2& GetFinalPos() const 
 	{ return m_vFinalPos; }
 	const UINT& GetID() const { return m_ID; }
-	const COLLIDER_TYPE& GetType() const { return type; }
 	const Object* GetObj() const { return m_pOwner; }
 private:
 	UINT m_check;
@@ -36,7 +34,6 @@ private:
 	Vec2 m_vOffsetPos; // 오프셋
 	Vec2 m_vFinalPos; // 파이널 위치
 	Vec2 m_vScale; // 크기
-	COLLIDER_TYPE type;
 	friend class Object;
 	UINT m_ID; // 충돌체 ID값
 	static UINT m_sNextID;

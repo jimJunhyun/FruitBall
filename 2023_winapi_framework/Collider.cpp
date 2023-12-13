@@ -9,7 +9,6 @@ Collider::Collider()
 	, m_ID(m_sNextID++)
 	, m_check(0)
 	, m_vFinalPos{}
-	, type {COLLIDER_TYPE::RECTANGLE}
 {
 	//Collider a, b;
 	//a = b;
@@ -22,7 +21,6 @@ Collider::Collider(const Collider& _origin)
 	, m_ID(m_sNextID++)
 	, m_check(0)
 	, m_vFinalPos{}
-	, type {COLLIDER_TYPE::RECTANGLE}
 {
 }
 
@@ -39,23 +37,14 @@ void Collider::Render(HDC _dc)
 		ePen = PEN_TYPE::RED;
 	SelectGDI pen(_dc, ePen);
 	SelectGDI brush(_dc, BRUSH_TYPE::HOLLOW);
-	switch (type)
-	{
-	case COLLIDER_TYPE::RECTANGLE:
-		RECT_RENDER(m_vFinalPos.x, m_vFinalPos.y, m_vScale.x, m_vScale.y, _dc);
-		break;
-	case COLLIDER_TYPE::CIRCLE:
-		ELLIPSE_RENDER(m_vFinalPos.x, m_vFinalPos.y, m_vScale.x, m_vScale.y, _dc);
-		break;
-	}
-	
+	RECT_RENDER(m_vFinalPos.x, m_vFinalPos.y, m_vScale.x, m_vScale.y, _dc);
 	
 }
 
-void Collider::EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
+void Collider::EnterCollision(Collider* _pOther)
 {
  	++m_check;
-	m_pOwner->EnterCollision(_pOther, info);
+	m_pOwner->EnterCollision(_pOther);
 }
 
 void Collider::ExitCollision(Collider* _pOther)
@@ -64,9 +53,9 @@ void Collider::ExitCollision(Collider* _pOther)
 	m_pOwner->ExitCollision(_pOther);
 }
 
-void Collider::StayCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
+void Collider::StayCollision(Collider* _pOther)
 {
-	m_pOwner->StayCollision(_pOther, info);
+	m_pOwner->StayCollision(_pOther);
 }
 
 const RECT& Collider::GetRect()

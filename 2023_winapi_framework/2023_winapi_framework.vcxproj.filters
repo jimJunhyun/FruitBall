@@ -115,6 +115,15 @@
     <ClInclude Include="Start_Scene.h">
       <Filter>Engine\05. Scene\MainScene</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Engine\04. Object\MainObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Engine\04. Object\MainObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Engine\04. Object\MainObject</Filter>
+    </ClInclude>
     <ClInclude Include="Res.h">
       <Filter>Engine\06. Resource</Filter>
     </ClInclude>
@@ -157,8 +166,17 @@
     <ClInclude Include="ForceManager.h">
       <Filter>Engine\03. Manager\ForceManager</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionInfo.h">
-      <Filter>Engine\08. Module</Filter>
+    <ClInclude Include="Gameover_Scene.h">
+      <Filter>Engine\05. Scene\MainScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Engine\04. Object\MainObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBox.h">
+      <Filter>Engine\04. Object\MainObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Explain_Scene.h">
+      <Filter>Engine\05. Scene\MainScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +226,15 @@
     <ClCompile Include="main.cpp">
       <Filter>Engine\02. Core</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Engine\04. Object\MainObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Engine\04. Object\MainObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Engine\04. Object\MainObject</Filter>
+    </ClCompile>
     <ClCompile Include="Res.cpp">
       <Filter>Engine\06. Resource</Filter>
     </ClCompile>
@@ -247,8 +274,17 @@
     <ClCompile Include="ForceManager.cpp">
       <Filter>Engine\03. Manager\ForceManager</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionInfo.cpp">
-      <Filter>Engine\08. Module</Filter>
+    <ClCompile Include="Gameover_Scene.cpp">
+      <Filter>Engine\05. Scene\MainScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Engine\04. Object\MainObject</Filter>
+    </ClCompile>
+    <ClCompile Include="TextBox.cpp">
+      <Filter>Engine\04. Object\MainObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Explain_Scene.cpp">
+      <Filter>Engine\05. Scene\MainScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

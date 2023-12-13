@@ -22,8 +22,8 @@ class EnumToStringer
 			return L"RASPBERRY";
 		case FRUITS::REDAPPLE:
 			return L"REDAPPLE";
-		case FRUITS::ROTTENFRUIT:
-			return L"ROTTENFRUIT";
+		default:
+			return L"";
 		}
 	}
 };
