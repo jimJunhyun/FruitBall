@@ -115,9 +115,6 @@
     <ClInclude Include="Start_Scene.h">
       <Filter>Engine\05. Scene\MainScene</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Engine\04. Object\MainObject</Filter>
-    </ClInclude>
     <ClInclude Include="Res.h">
       <Filter>Engine\06. Resource</Filter>
     </ClInclude>
@@ -234,9 +231,6 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Engine\02. Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Engine\04. Object\MainObject</Filter>
     </ClCompile>
     <ClCompile Include="Res.cpp">
       <Filter>Engine\06. Resource</Filter>
