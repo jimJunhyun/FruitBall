@@ -4,13 +4,21 @@
 #include "TimeMgr.h"
 #include "Collider.h"
 #include "Animator.h"
-Object::Object()
+#include "CollisionInfo.h"
+#include "Scene.h"
+
+
+
+Object::Object(Scene* scene)
 	: m_pCollider(nullptr)
 	, m_vPos{}
 	, m_vScale{}
 	, m_IsAlive(true)
 	, m_pAnimator(nullptr)
-	, m_vVelocity{}
+	, m_vVelocity(0, 0)
+	, bounciness(0.9)
+	, colliding(nullptr)
+	, level(scene)
 {
 }
 
@@ -23,10 +31,11 @@ Object::~Object()
 
 }
 
-void Object::CreateCollider()
+void Object::CreateCollider(COLLIDER_TYPE type)
 {
 	m_pCollider = new Collider;
 	m_pCollider->m_pOwner = this;
+	m_pCollider->type = type;
 }
 
 void Object::CreateAnimator()
@@ -38,7 +47,9 @@ void Object::CreateAnimator()
 void Object::Update()
 {
 	if (m_vVelocity.Length() != 0) {
-		m_vPos = m_vPos + m_vVelocity * fDT;
+		Vec2 curVel = GetVelocity();
+		m_vPos.x = m_vPos.x + curVel.x * GetMyDT();
+		m_vPos.y = m_vPos.y + curVel.y * GetMyDT();
 	}
 }
 
@@ -50,24 +61,24 @@ void Object::FinalUpdate()
 
 void Object::Render(HDC _dc)
 {
-	/*Vec2 vPos = m_obj.GetPos();
-	Vec2 vScale = m_obj.GetScale();*/
+	
 	RECT_RENDER(m_vPos.x, m_vPos.y, m_vScale.x, m_vScale.y, _dc);
 	Component_Render(_dc);
 }
 
-void Object::EnterCollision(Collider* _pOther)
+void Object::EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
 {
-	SetDead();
+	
 }
 
 void Object::ExitCollision(Collider* _pOther)
 {
+	colliding = nullptr;
 }
 
-void Object::StayCollision(Collider* _pOther)
+void Object::StayCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
 {
-
+	
 }
 
 void Object::Component_Render(HDC _dc)
@@ -77,5 +88,15 @@ void Object::Component_Render(HDC _dc)
 	if (nullptr != m_pAnimator)
 		m_pAnimator->Render(_dc);
 
+}
+
+const float& Object::GetMyDT() const
+{
+	return fDT * level->GetTimescale();
+}
+
+const float& Object::GetUnscaledDT() const
+{
+	return fDT;
 }
 
