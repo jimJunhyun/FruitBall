@@ -12,13 +12,21 @@
 Object::Object(Scene* scene)
 	: m_pCollider(nullptr)
 	, m_vPos{}
+
 	, m_vScale{}
+
 	, m_IsAlive(true)
+
 	, m_pAnimator(nullptr)
+
 	, m_vVelocity(0, 0)
+
 	, bounciness(0.9)
+
 	, colliding(nullptr)
+
 	, level(scene)
+
 {
 }
 
@@ -44,6 +52,7 @@ void Object::CreateAnimator()
 	m_pAnimator->m_pOwner = this;
 }
 
+
 void Object::Update()
 {
 	if (m_vVelocity.Length() != 0) {
@@ -59,29 +68,32 @@ void Object::FinalUpdate()
 		m_pCollider->FinalUpdate();
 }
 
+
 void Object::Render(HDC _dc)
 {
-	
 	RECT_RENDER(m_vPos.x, m_vPos.y, m_vScale.x, m_vScale.y, _dc);
 	Component_Render(_dc);
 }
 
-void Object::EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
+
+void Object::EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info   )
 {
 	
 }
 
-void Object::ExitCollision(Collider* _pOther)
+
+void Object::ExitCollision(Collider* _pOther   )
 {
 	colliding = nullptr;
 }
 
-void Object::StayCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
+
+void Object::StayCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info   )
 {
 	
 }
 
-void Object::Component_Render(HDC _dc)
+void Object::Component_Render(HDC _dc  )
 {
 	if (nullptr != m_pCollider)
 		m_pCollider->Render(_dc);
@@ -90,13 +102,17 @@ void Object::Component_Render(HDC _dc)
 
 }
 
+
 const float& Object::GetMyDT() const
 {
 	return fDT * level->GetTimescale();
+
 }
+
 
 const float& Object::GetUnscaledDT() const
 {
 	return fDT;
+
 }
 

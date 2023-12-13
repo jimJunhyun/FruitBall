@@ -1,11 +1,7 @@
 #include "pch.h"
 #include "CollisionInfo.h"
 #include "Collider.h"
-/// <summary>
-/// 
-/// </summary>
-/// <param name="left"></param>
-/// <param name="right"></param>
+
 
 CollisionInfo::CollisionInfo(Collider* left, Collider* right)
 {
