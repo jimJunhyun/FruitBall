@@ -4,7 +4,7 @@ class TextBox :
 	public Object
 {
 public:
-	TextBox(wstring _text);
+	TextBox(wstring _text, int _size);
 	~TextBox();
 
 public:
@@ -14,4 +14,5 @@ public:
 
 private:
 	wstring m_sText;
+	int m_iSize;
 };
