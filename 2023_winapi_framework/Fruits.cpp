@@ -1,3 +1,4 @@
+
 #include "pch.h"
 #include "Fruits.h"
 #include "ResMgr.h"
@@ -7,25 +8,32 @@
 #include "TimeMgr.h"
 #include "Game_Scene.h"
 
+
+
+
+
 Fruits::~Fruits()
 {
 }
 
-void Fruits::Init( FRUITS type, float scale)
+
+void Fruits::Init(FRUITS type, float scale)
 {
-	fruitMode = type;
-	lifeTime = 0;
-
+	fruitMode = type; 
+	lifeTime = 0;  
+	 
 	wchar_t fileNameBuffer[50];
-	wsprintf(fileNameBuffer, L"Texture\\%s.bmp", EnumToStringer::GetInst()->GetFruitName(type).c_str());
+	wsprintf(fileNameBuffer, L"Texture\\%s.bmp", EnumToStringer::GetInst()->GetFruitName(type).c_str()); 
+	 
+	myTexture = ResMgr::GetInst()->TexLoad(EnumToStringer::GetInst()->GetFruitName(type), fileNameBuffer); 
 
-	myTexture = ResMgr::GetInst()->TexLoad(EnumToStringer::GetInst()->GetFruitName(type), fileNameBuffer);
-
-	SetScale(Vec2( myTexture->GetWidth() * scale, myTexture->GetHeight() * scale ));
-	CreateCollider(COLLIDER_TYPE::CIRCLE);
-	GetCollider()->SetScale(Vec2(GetScale().x, GetScale().x) * 0.5f);
+	SetScale(Vec2(myTexture->GetWidth() * scale, myTexture->GetHeight() * scale)); 
+	CreateCollider(COLLIDER_TYPE::CIRCLE); 
+	GetCollider()->SetScale(Vec2(GetScale().x, GetScale().x) * 0.5f); 
 	GetCollider()->SetOffSetPos(Vec2(GetScale().x, GetScale().y) * 0.5f);
+
 }
+
 
 void Fruits::Update()
 {
@@ -40,17 +48,17 @@ void Fruits::Update()
 		else if (GetPos().x <= 0) {
 			Vec2 vel = GetVelocity();
 			if (vel.x < 0) {
-				AddForce(Vec2(2, 0) * abs(vel.x));
+				AddForce(Vec2(2, 0) * abs(vel.x)); 
 			}
-		}
-		if (GetPos().y + GetScale().y >= WINDOW_HEIGHT) {
+		} 
+		if (GetPos().y + GetScale().y >= WINDOW_HEIGHT) { 
 			if (bounceCount > 0) {
-				Vec2 vel = GetVelocity();
+				Vec2 vel = GetVelocity(); 
 				if (vel.y > 0) {
-					AddForce(Vec2(0, -2) * abs(vel.y) * GetBounciness());
-					--bounceCount;
+					AddForce(Vec2(0, -2) * abs(vel.y) * GetBounciness()); 
+					--bounceCount; 
 				}
-			}
+			} 
 		}
 
 		if (GetPos().y >= WINDOW_HEIGHT) {
@@ -60,7 +68,7 @@ void Fruits::Update()
 			}
 		}
 	}
-	
+
 }
 
 void Fruits::Render(HDC _dc)
@@ -90,3 +98,5 @@ void Fruits::SetDead()
 	Object::SetDead();
 	static_cast<Game_Scene*>(GetLevel())->curCnt -= 1;
 }
+
+
