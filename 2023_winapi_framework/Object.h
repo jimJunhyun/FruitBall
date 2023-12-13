@@ -8,7 +8,7 @@ class TimeMgr;
 class Object
 {
 public:
-	Object(Scene* scene);
+	Object(Scene* scene  );
 	virtual ~Object();
 //public:	// 크기, 위치
 	//POINT m_ptPos;
