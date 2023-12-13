@@ -4,14 +4,19 @@
 #include "TimeMgr.h"
 #include "Collider.h"
 #include "Animator.h"
-Object::Object()
+#include "CollisionInfo.h"
+#include "Scene.h"
+
+Object::Object(Scene* scene)
 	: m_pCollider(nullptr)
 	, m_vPos{}
 	, m_vScale{}
 	, m_IsAlive(true)
 	, m_pAnimator(nullptr)
 	, m_vVelocity(0, 0)
-	, velMod(1, 1)
+	, bounciness(0.9)
+	, colliding(nullptr)
+	, level(scene)
 {
 }
 
@@ -41,7 +46,8 @@ void Object::Update()
 {
 	if (m_vVelocity.Length() != 0) {
 		Vec2 curVel = GetVelocity();
-		m_vPos = m_vPos + curVel * fDT;
+		m_vPos.x = m_vPos.x + curVel.x * GetMyDT();
+		m_vPos.y = m_vPos.y + curVel.y * GetMyDT();
 	}
 }
 
@@ -59,21 +65,47 @@ void Object::Render(HDC _dc)
 	Component_Render(_dc);
 }
 
-void Object::EnterCollision(Collider* _pOther, CollisionInfo* info)
+void Object::EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
 {
+	/*colliding = info;
+	if (_pOther == nullptr || info == nullptr)
+		return;
+	Vec2 vel = _pOther->m_pOwner->GetVelocity();
+	Vec2 myVel = GetVelocity();
+	Vec2 v = (vel * (bounciness + 1) + (myVel * (1 - bounciness))) * 0.5f;
+	SetVelocity(v);*/
 }
 
 void Object::ExitCollision(Collider* _pOther)
 {
+	colliding = nullptr;
 }
 
-void Object::StayCollision(Collider* _pOther)
+void Object::StayCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
 {
+	/*colliding = info;
+	if (_pOther == nullptr || info == nullptr)
+		return;
 
+	Vec2 vel = _pOther->m_pOwner->GetVelocity();
+	Vec2 myVel = GetVelocity();
+	SetVelocity((vel * (bounciness + 1) + (myVel * (1 - bounciness))) * 0.5f);*/
+
+
+	/*Vec2 p = (colliding->GetCollidePoint());
+	Vec2 curVel = GetVelocity();
+	if ((p.x > GetPos().x) == (curVel.x >0) && (p.y > GetPos().y) == (curVel.y > 0)) {
+		AddForce(info->GetCollideNormal(_pOther) * _pOther->m_pOwner->bounciness);
+	}*/
 }
 
 void Object::Component_Render(HDC _dc)
 {
+	//if (colliding != nullptr) {
+	//	RECT_RENDER(colliding->GetCollidePoint().x, colliding->GetCollidePoint().y, 25, 25, _dc);
+	//	RECT_RENDER(colliding->GetCollidePoint().x - colliding->GetCollideNormal(GetCollider()).x * 25, colliding->GetCollidePoint().y - colliding->GetCollideNormal(GetCollider()).y * 25, 10, 10, _dc);
+	//	//LineTo(_dc, colliding->GetCollidePoint().x - colliding->GetCollideNormal(GetCollider()).x, colliding->GetCollidePoint().y - colliding->GetCollideNormal(GetCollider()).y);
+	//}
 	if (nullptr != m_pCollider)
 		m_pCollider->Render(_dc);
 	if (nullptr != m_pAnimator)
@@ -81,8 +113,12 @@ void Object::Component_Render(HDC _dc)
 
 }
 
-const float Object::GetVelocityPower()
+const float& Object::GetMyDT() const
 {
-	return m_vVelocity.Length();;
+	return fDT * level->GetTimescale();
 }
 
+const float& Object::GetUnscaledDT() const
+{
+	return fDT;
+}

@@ -64,7 +64,7 @@ enum class FRUITS {
 	ORANGE,
 	RASPBERRY,
 	REDAPPLE,
-
+	ROTTENFRUIT,
 
 	MAX
 };

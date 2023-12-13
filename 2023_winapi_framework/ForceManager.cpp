@@ -25,7 +25,9 @@ void ForceManager::Update()
 				continue;
 			}
 			
-			curObjVel = curObjVel + (-curObjVel * floorResistance * fDT);
+			curObjVel = curObjVel + (-curObjVel * floorResistance * selectedGroups[i]->GetMyDT());
+			float gr = GRAVITY * selectedGroups[i]->GetMyDT();
+			curObjVel.y += gr;
 			selectedGroups[i]->SetVelocity(curObjVel);
 		}
 	}
