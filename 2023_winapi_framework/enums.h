@@ -51,11 +51,12 @@ enum class EVENT_TYPE
 	END
 };
 
+
 enum class COLLIDER_TYPE {
 	RECTANGLE,
-	CIRCLE,
-
+	CIRCLE
 };
+
 
 enum class FRUITS {
 	WATERMELON,
