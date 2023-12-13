@@ -52,8 +52,10 @@ void Collider::Render(HDC _dc)
 	
 }
 
+
 void Collider::EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
 {
+
 
  	++m_check;
 	m_pOwner->EnterCollision(_pOther, info);
@@ -61,6 +63,8 @@ void Collider::EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> 
 }
 
 void Collider::ExitCollision(Collider* _pOther)
+
+
 {
 
 	--m_check;
@@ -69,6 +73,8 @@ void Collider::ExitCollision(Collider* _pOther)
 }
 
 void Collider::StayCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
+
+
 {
 
 	m_pOwner->StayCollision(_pOther, info);
