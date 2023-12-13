@@ -180,6 +180,7 @@
     <ClInclude Include="enums.h" />
     <ClInclude Include="EnumToStringer.h" />
     <ClInclude Include="EventMgr.h" />
+    <ClInclude Include="Explain_Scene.h" />
     <ClInclude Include="ForceManager.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Fruits.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="EnumToStringer.cpp" />
     <ClCompile Include="EventMgr.cpp" />
+    <ClCompile Include="Explain_Scene.cpp" />
     <ClCompile Include="ForceManager.cpp" />
     <ClCompile Include="Fruits.cpp" />
     <ClCompile Include="Gameover_Scene.cpp" />

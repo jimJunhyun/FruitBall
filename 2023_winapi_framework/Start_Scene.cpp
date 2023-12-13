@@ -17,7 +17,7 @@ void Start_Scene::Init()
 
 	Button* Btn2 = new Button([]()
 		{
-
+			SceneMgr::GetInst()->LoadScene(L"ExplainScene");
 		}, L"게임 설명");
 	Btn2->SetPos((Vec2({ Core::GetInst()->GetResolution().x / 2, Core::GetInst()->GetResolution().y / 2 + 60 })));
 	Btn2->SetScale(Vec2(100.f, 30.f));
