@@ -12,7 +12,9 @@ public:
 	Vec2(const Vec2& _vec);
 public:
 	float Length() { return (float)(sqrt(pow(x, 2) + pow(y, 2))); }
+
 	Vec2& Normalize()
+
 	{
 		float fLen = Length();
 		// 0¿Ã∏È æ»µ≈.
@@ -21,7 +23,9 @@ public:
 		y /= fLen;
 		return *this;
 	}
+
 	Vec2& Normalized() {
+
 		Vec2 v(*this);
 		return v.Normalize();
 	}

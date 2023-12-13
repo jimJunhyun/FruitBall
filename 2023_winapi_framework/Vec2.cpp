@@ -23,6 +23,7 @@ Vec2::Vec2(POINT _pt)
 	: x((float)_pt.x)
 	, y((float)_pt.y)
 {}
+
 Vec2::Vec2(const Vec2& _vec)
 	: x(_vec.x)
 	, y(_vec.y)
