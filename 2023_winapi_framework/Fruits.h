@@ -40,5 +40,7 @@ private:
 	float lifeTime;
 
 	int bounceCount = 2;
+
+	bool cut;
 };
 

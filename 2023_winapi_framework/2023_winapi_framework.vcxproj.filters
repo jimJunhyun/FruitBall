@@ -172,6 +172,9 @@
     <ClInclude Include="TextBox.h">
       <Filter>Engine\04. Object\MainObject</Filter>
     </ClInclude>
+    <ClInclude Include="Splatter.h">
+      <Filter>Engine\04. Object\MainObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2023_winapi_framework.rc">
@@ -272,6 +275,9 @@
       <Filter>Engine\04. Object\MainObject</Filter>
     </ClCompile>
     <ClCompile Include="TextBox.cpp">
+      <Filter>Engine\04. Object\MainObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Splatter.cpp">
       <Filter>Engine\04. Object\MainObject</Filter>
     </ClCompile>
   </ItemGroup>

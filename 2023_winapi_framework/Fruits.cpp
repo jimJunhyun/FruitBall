@@ -7,6 +7,7 @@
 #include "Collider.h"
 #include "TimeMgr.h"
 #include "Game_Scene.h"
+#include "Splatter.h"
 
 
 
@@ -21,6 +22,7 @@ void Fruits::Init(FRUITS type, float scale)
 {
 	fruitMode = type; 
 	lifeTime = 0;  
+	cut = false;
 	 
 	wchar_t fileNameBuffer[50];
 	wsprintf(fileNameBuffer, L"Texture\\%s.bmp", EnumToStringer::GetInst()->GetFruitName(type).c_str()); 
@@ -95,8 +97,16 @@ void Fruits::ExitCollision(Collider* _pOther)
 
 void Fruits::SetDead()
 {
-	Object::SetDead();
-	static_cast<Game_Scene*>(GetLevel())->curCnt -= 1;
+	if (!cut) {
+		Object::SetDead();
+		static_cast<Game_Scene*>(GetLevel())->curCnt -= 1;
+		Splatter* splatter = new Splatter(GetLevel());
+		splatter->SetPos(GetPos());
+		static_cast<Game_Scene*>(GetLevel())->AddObject(splatter, OBJECT_GROUP::DEFAULT);
+		cut = true;
+	}
+	
+	
 }
 
 
