@@ -7,6 +7,7 @@
 #include "Collider.h"
 #include "TimeMgr.h"
 #include "Game_Scene.h"
+#include "Splatter.h"
 
 
 
@@ -21,6 +22,7 @@ void Fruits::Init(FRUITS type, float scale)
 {
 	fruitMode = type; 
 	lifeTime = 0;  
+	cut = false;
 	 
 	wchar_t fileNameBuffer[50];
 	wsprintf(fileNameBuffer, L"Texture\\%s.bmp", EnumToStringer::GetInst()->GetFruitName(type).c_str()); 
@@ -43,12 +45,14 @@ void Fruits::Update()
 			Vec2 vel = GetVelocity();
 			if (vel.x > 0) {
 				AddForce(Vec2(-2, 0) * abs(vel.x));
+				ResMgr::GetInst()->Play(L"Collision");
 			}
 		}
 		else if (GetPos().x <= 0) {
 			Vec2 vel = GetVelocity();
 			if (vel.x < 0) {
 				AddForce(Vec2(2, 0) * abs(vel.x)); 
+				ResMgr::GetInst()->Play(L"Collision");
 			}
 		} 
 		if (GetPos().y + GetScale().y >= WINDOW_HEIGHT) { 
@@ -57,6 +61,7 @@ void Fruits::Update()
 				if (vel.y > 0) {
 					AddForce(Vec2(0, -2) * abs(vel.y) * GetBounciness()); 
 					--bounceCount; 
+					ResMgr::GetInst()->Play(L"Collision");
 				}
 			} 
 		}
@@ -74,16 +79,19 @@ void Fruits::Update()
 void Fruits::Render(HDC _dc)
 {
 	TRANSPARENTBLT_INPOS(_dc, myTexture->GetDC(), myTexture);
-	Component_Render(_dc);
+	//Component_Render(_dc);
 }
 
 void Fruits::EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
 {
 	if (_pOther == nullptr) {
-		SetDead();
-		if (fruitMode == FRUITS::ROTTENFRUIT) {
-			static_cast<Game_Scene*>(GetLevel())->DecreaseLife(1);
+		if (!cut) {
+			if (fruitMode == FRUITS::ROTTENFRUIT) {
+				static_cast<Game_Scene*>(GetLevel())->DecreaseLife(1);
+			}
+			ResMgr::GetInst()->Play(L"SlashFruit");
 		}
+		SetDead();
 	}
 	Object::EnterCollision(_pOther, info);
 }
@@ -95,8 +103,17 @@ void Fruits::ExitCollision(Collider* _pOther)
 
 void Fruits::SetDead()
 {
-	Object::SetDead();
-	static_cast<Game_Scene*>(GetLevel())->curCnt -= 1;
+	if (!cut) {
+		Object::SetDead();
+		static_cast<Game_Scene*>(GetLevel())->curCnt -= 1;
+		Splatter* splatter = new Splatter(GetLevel());
+		splatter->SetPos(GetPos());
+		static_cast<Game_Scene*>(GetLevel())->AddObject(splatter, OBJECT_GROUP::DEFAULT);
+		cut = true;
+		
+	}
+	
+	
 }
 
 
