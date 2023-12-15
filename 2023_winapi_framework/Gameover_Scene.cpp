@@ -23,7 +23,7 @@ void Gameover_Scene::Init()
 			SceneMgr::GetInst()->LoadScene(L"StartScene");
 		}
 	, L"돌아가기");
-	Btn1->SetPos((Vec2({ Core::GetInst()->GetResolution().x / 2, Core::GetInst()->GetResolution().y / 2 + 200 })));
+	Btn1->SetPos((Vec2({ Core::GetInst()->GetResolution().x / 2, Core::GetInst()->GetResolution().y / 2 + 140 })));
 	Btn1->SetScale(Vec2(100.f, 30.f));
 	AddObject(Btn1, OBJECT_GROUP::UI);
 
@@ -38,6 +38,15 @@ void Gameover_Scene::Init()
 	TB2->SetPos((Vec2({ Core::GetInst()->GetResolution().x / 2 + 300, Core::GetInst()->GetResolution().y / 2 + 200 })));
 	TB2->SetScale(Vec2(1280.f, 720.f));
 	AddObject(TB2, OBJECT_GROUP::UI);
+
+	Button* Btn3 = new Button([]()
+		{
+			//SceneMgr::GetInst()->LoadScene(L"GameOverScene");
+			SendMessage(Core::GetInst()->GetHwnd(), WM_CLOSE, 0, 0);
+		}, L"게임 종료");
+	Btn3->SetPos((Vec2({ Core::GetInst()->GetResolution().x / 2, Core::GetInst()->GetResolution().y / 2 + 200 })));
+	Btn3->SetScale(Vec2(100.f, 30.f));
+	AddObject(Btn3, OBJECT_GROUP::UI);
 }
 
 void Gameover_Scene::Update()

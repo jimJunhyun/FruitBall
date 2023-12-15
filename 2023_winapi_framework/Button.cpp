@@ -23,7 +23,7 @@ void Button::Update()
 	{
 		Vec2 vPos = GetPos();
 		Vec2 vScale = GetScale();
-		POINT _pMousePoint;
+		//POINT _pMousePoint;
 		//GETMOUSEPOSITION();
 
 		RECT rt = { vPos.x - vScale.x / 2, vPos.y - vScale.y / 2

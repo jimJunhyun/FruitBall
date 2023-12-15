@@ -257,9 +257,9 @@ void Game_Scene::AddScoreDrawCall(int val)
 void Game_Scene::DecreaseLife(int value)
 {
 	life -= value;
-	if (life <= 0) {
+	if (life == 0) {
 
-		//SceneMgr::GetInst()->LoadScene(L"GameOverScene");
+		SceneMgr::GetInst()->LoadScene(L"GameOverScene");
 	}
 }
 
