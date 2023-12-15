@@ -32,6 +32,8 @@ void Game_Scene::Init()
 	backgroundTex = ResMgr::GetInst()->TexLoad(L"BackGround", L"Texture\\Poolball.bmp");
 	ResMgr::GetInst()->LoadSound(L"SlashFruit", L"Sound\\SlashFruit.wav", false);
 	ResMgr::GetInst()->LoadSound(L"Collision", L"Sound\\Collision.wav", false);
+	ResMgr::GetInst()->LoadSound(L"BgndMusic", L"Sound\\BgndMusic.mp3", true);
+	ResMgr::GetInst()->Play(L"BgndMusic");
 }
 
 void Game_Scene::Update()
@@ -104,10 +106,6 @@ void Game_Scene::Update()
 							}
 
 						}
-
-
-
-
 					}
 				}
 			}
@@ -146,7 +144,8 @@ void Game_Scene::Render(HDC _dc)
 		bf.BlendOp = AC_SRC_OVER;
 		bf.BlendFlags = 0;
 		bf.SourceConstantAlpha = 128 * (curFadeSec / fadeSec);
-		AlphaBlend(_dc, 0, 0, WINDOW_WIDTH , WINDOW_HEIGHT , focusModeTex->GetDC(), 0, 0, focusModeTex->GetWidth(), focusModeTex->GetHeight(), bf);
+		AlphaBlend(_dc, 0, 0, WINDOW_WIDTH , WINDOW_HEIGHT , 
+			focusModeTex->GetDC(), 0, 0, focusModeTex->GetWidth(), focusModeTex->GetHeight(), bf);
 
 		SelectObject(_dc, prevBrush);
 		DeleteObject(b);
