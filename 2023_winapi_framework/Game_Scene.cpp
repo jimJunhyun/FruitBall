@@ -237,8 +237,8 @@ void Game_Scene::Release()
 void Game_Scene::DecreaseLife(int value)
 {
 	life -= value;
-	if (life <= 0) {
+	if (life == 0) {
 
-		//SceneMgr::GetInst()->LoadScene(L"GameOverScene");
+		SceneMgr::GetInst()->LoadScene(L"GameOverScene");
 	}
 }
