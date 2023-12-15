@@ -1,7 +1,7 @@
 #pragma once
 #include "Scene.h"
 class Texture;
-class Start_Scene :
+class Loading_Scene :
 	public Scene
 {
 public:

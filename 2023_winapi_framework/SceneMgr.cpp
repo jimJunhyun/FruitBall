@@ -4,6 +4,7 @@
 #include "Game_Scene.h"
 #include "Gameover_Scene.h"
 #include "Explain_Scene.h"
+#include "Loading_Scene.h"
 void SceneMgr::Init()
 {
 	m_pCurScene = nullptr;
@@ -12,6 +13,7 @@ void SceneMgr::Init()
 	RegisterScene(L"GameScene", std::make_shared<Game_Scene>());
 	RegisterScene(L"GameOverScene", std::make_shared<Gameover_Scene>());
 	RegisterScene(L"ExplainScene", std::make_shared<Explain_Scene>());
+	RegisterScene(L"LoadingScene", std::make_shared<Loading_Scene>());
 
 	// Ã¹ ¾À ÁöÁ¤
 	LoadScene(L"StartScene");

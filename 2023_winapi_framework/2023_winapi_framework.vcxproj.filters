@@ -184,6 +184,7 @@
     <ClInclude Include="CollisionInfo.h">
       <Filter>Engine\08. Module</Filter>
     </ClInclude>
+    <ClInclude Include="Loading_Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2023_winapi_framework.rc">
@@ -298,5 +299,6 @@
     <ClCompile Include="CollisionInfo.cpp">
       <Filter>Engine\08. Module</Filter>
     </ClCompile>
+    <ClCompile Include="Loading_Scene.cpp" />
   </ItemGroup>
 </Project>
