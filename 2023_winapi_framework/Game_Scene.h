@@ -54,12 +54,18 @@ private:
 
     Texture* focusModeTex;
     Texture* backgroundTex;
+    int score;
+
+    void AddScoreDrawCall(int val);
+    vector<std::pair<int, float>> scoreDurPairs;
+
+    float scoreDisplaySec = 0.7;
+
 public:
     float spawnSec = 0.5f;
     int maxCnt = 17;
     int curCnt = 0;
 
-    int score;
     
     
 
@@ -68,6 +74,6 @@ public:
 
     void DecreaseLife(int value);
 
-    void AddScore(int value) { score += value; }
+    void AddScore(int value);
 };
 

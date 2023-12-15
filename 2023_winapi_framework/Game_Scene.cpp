@@ -30,6 +30,8 @@ void Game_Scene::Init()
 
 	focusModeTex = ResMgr::GetInst()->TexLoad(L"FocusMode", L"Texture\\FocusMode.bmp");
 	backgroundTex = ResMgr::GetInst()->TexLoad(L"BackGround", L"Texture\\Poolball.bmp");
+	ResMgr::GetInst()->LoadSound(L"SlashFruit", L"Sound\\SlashFruit.wav", false);
+	ResMgr::GetInst()->LoadSound(L"Collision", L"Sound\\Collision.wav", false);
 }
 
 void Game_Scene::Update()
@@ -92,8 +94,7 @@ void Game_Scene::Update()
 							fruit->Pause();
 							if (curDrag->passedObjs.insert(fruit).second) {
 								if (fruit->GetType() == FRUITS::ROTTENFRUIT) {
-									score -= 100;
-									DecreaseLife(1);
+									
 								}
 								else {
 									curDrag->combo += 1;
@@ -118,7 +119,7 @@ void Game_Scene::Update()
 		if (curDrag) {
 			curDrag->endPos = GETMOUSEPOSITION();
 
-			score += max((curDrag->combo * 2) * curDrag->predScore / (curDrag->moveDist * 0.05f), 0);
+			AddScore(max((curDrag->combo * 2) * curDrag->predScore / (curDrag->moveDist * 0.05f), 0));
 
 			lastLinePoint = 0;
 			if (curDrag->passedObjs.size() > 0) {
@@ -210,9 +211,24 @@ void Game_Scene::Render(HDC _dc)
 		curDrag = nullptr;
 	}
 
+
 	wchar_t buffer[50];
 	wsprintf(buffer, L"Score : %d", score);
 	TextOut(_dc, 20, 20, buffer, wcslen(buffer));
+
+	for (auto iter = scoreDurPairs.begin(); iter != scoreDurPairs.end();)
+	{
+		wsprintf(buffer, L"+ %d", (*iter).first);
+		TextOut(_dc, 20, 40 + 20 * (iter - scoreDurPairs.begin()), buffer, wcslen(buffer));
+
+		(*iter).second -= fDT;
+		if ((*iter).second < 0) {
+			iter = scoreDurPairs.erase(iter);
+		}
+		else {
+			++iter;
+		}
+	}
 	
 	for (int i = 0; i < maxLife; i++)
 	{
@@ -234,6 +250,11 @@ void Game_Scene::Release()
 	CollisionMgr::GetInst()->CheckReset();
 }
 
+void Game_Scene::AddScoreDrawCall(int val)
+{
+	scoreDurPairs.push_back({ val, scoreDisplaySec });
+}
+
 void Game_Scene::DecreaseLife(int value)
 {
 	life -= value;
@@ -241,4 +262,10 @@ void Game_Scene::DecreaseLife(int value)
 
 		//SceneMgr::GetInst()->LoadScene(L"GameOverScene");
 	}
+}
+
+void Game_Scene::AddScore(int value)
+{
+	score += value;
+	AddScoreDrawCall(value);
 }

@@ -45,12 +45,14 @@ void Fruits::Update()
 			Vec2 vel = GetVelocity();
 			if (vel.x > 0) {
 				AddForce(Vec2(-2, 0) * abs(vel.x));
+				ResMgr::GetInst()->Play(L"Collision");
 			}
 		}
 		else if (GetPos().x <= 0) {
 			Vec2 vel = GetVelocity();
 			if (vel.x < 0) {
 				AddForce(Vec2(2, 0) * abs(vel.x)); 
+				ResMgr::GetInst()->Play(L"Collision");
 			}
 		} 
 		if (GetPos().y + GetScale().y >= WINDOW_HEIGHT) { 
@@ -59,6 +61,7 @@ void Fruits::Update()
 				if (vel.y > 0) {
 					AddForce(Vec2(0, -2) * abs(vel.y) * GetBounciness()); 
 					--bounceCount; 
+					ResMgr::GetInst()->Play(L"Collision");
 				}
 			} 
 		}
@@ -76,16 +79,19 @@ void Fruits::Update()
 void Fruits::Render(HDC _dc)
 {
 	TRANSPARENTBLT_INPOS(_dc, myTexture->GetDC(), myTexture);
-	Component_Render(_dc);
+	//Component_Render(_dc);
 }
 
 void Fruits::EnterCollision(Collider* _pOther, std::shared_ptr<CollisionInfo> info)
 {
 	if (_pOther == nullptr) {
-		SetDead();
-		if (fruitMode == FRUITS::ROTTENFRUIT) {
-			static_cast<Game_Scene*>(GetLevel())->DecreaseLife(1);
+		if (!cut) {
+			if (fruitMode == FRUITS::ROTTENFRUIT) {
+				static_cast<Game_Scene*>(GetLevel())->DecreaseLife(1);
+			}
+			ResMgr::GetInst()->Play(L"SlashFruit");
 		}
+		SetDead();
 	}
 	Object::EnterCollision(_pOther, info);
 }
@@ -104,6 +110,7 @@ void Fruits::SetDead()
 		splatter->SetPos(GetPos());
 		static_cast<Game_Scene*>(GetLevel())->AddObject(splatter, OBJECT_GROUP::DEFAULT);
 		cut = true;
+		
 	}
 	
 	
