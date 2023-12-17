@@ -25,22 +25,22 @@ class Game_Scene :
     virtual void Release() override;
 
 private:
-    float accSec = 0;
+    float accSec;
     Drag* curDrag;
     int life;
-    int maxLife = 3;
+    int maxLife;
 
-    float lastLinePoint = 45;
+    float lastLinePoint;
 
-    int maxLineCount = 20;
-    float lineThreshold = 0.01f;
+    int maxLineCount;
+    float lineThreshold;
     float accLineT;
 
-    bool slash = false;
-    float slashGap = 0.08;
+    bool slash;
+    float slashGap;
     float accSlashSec;
 
-    int slashCount = 0;
+    int slashCount;
 
     float fadeSec;
     float curFadeSec;
@@ -59,12 +59,13 @@ private:
     void AddScoreDrawCall(int val);
     vector<std::pair<int, float>> scoreDurPairs;
 
-    float scoreDisplaySec = 0.7;
+    float scoreDisplaySec;
 
+    int maxCnt;
+    float spawnSec;
 public:
-    float spawnSec = 0.5f;
-    int maxCnt = 17;
-    int curCnt = 0;
+    
+    int curCnt;
 
     
     

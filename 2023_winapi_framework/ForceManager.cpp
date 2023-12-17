@@ -7,7 +7,7 @@
 
 void ForceManager::Init()
 {
-
+	GRAVITY = 980.0f;
 }
 
 void ForceManager::Update()
@@ -25,7 +25,7 @@ void ForceManager::Update()
 				continue;
 			}
 
-			curObjVel = curObjVel + (-curObjVel * floorResistance * selectedGroups[i]->GetMyDT());
+			curObjVel = curObjVel + (-curObjVel * floorResistance  * selectedGroups[i]->GetMyDT());
 			float gr = GRAVITY * selectedGroups[i]->GetMyDT();
 			curObjVel.y += gr;
 			selectedGroups[i]->SetVelocity(curObjVel);

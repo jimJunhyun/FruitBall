@@ -15,6 +15,28 @@
 
 void Game_Scene::Init()
 {
+	spawnSec = 0.5f;
+	maxCnt = 17;
+	curCnt = 0;
+	scoreDisplaySec = 0.7f;
+
+	accSec = 0;
+	maxLife = 3;
+
+	lastLinePoint = 45;
+
+	maxLineCount = 20;
+	lineThreshold = 0.01f;
+	accLineT = 0;
+
+	slash = false;
+	slashGap = 0.08f;
+	accSlashSec = 0;
+
+	curCnt = 0;
+
+	slashCount = 0;
+
 	life = maxLife;
 	score = 0;
 	curDrag = nullptr;
@@ -32,20 +54,25 @@ void Game_Scene::Init()
 	backgroundTex = ResMgr::GetInst()->TexLoad(L"BackGround", L"Texture\\Poolball.bmp");
 	ResMgr::GetInst()->LoadSound(L"SlashFruit", L"Sound\\SlashFruit.wav", false);
 	ResMgr::GetInst()->LoadSound(L"Collision", L"Sound\\Collision.wav", false);
-	ResMgr::GetInst()->LoadSound(L"BgndMusic", L"Sound\\BgndMusic.mp3", true);
-	ResMgr::GetInst()->Play(L"BgndMusic");
+	
 }
 
 void Game_Scene::Update()
 {
 	Scene::Update();
+
+	if (life == 0) {
+
+		SceneMgr::GetInst()->LoadScene(L"GameOverScene");
+	}
+
 	if (!curDrag && curCnt < maxCnt) {
 		accSec += fDT;
 		if (accSec > spawnSec) {
 			accSec = 0;
 			Fruits* fruit = new Fruits(static_cast<FRUITS>(rand() % (int)FRUITS::MAX), 0.1f, this);
-			fruit->SetPos({ rand() % 1280, 360 + rand() % 360 });
-			fruit->SetVelocity({ (1 - (rand() % 3)) * 1000 + 600, -1000 });
+			fruit->SetPos({ rand() % 1280 , rand() % 360 });
+			fruit->SetVelocity({ (1 - (rand() % 3)) * 1000 + 600, -500 });
 
 			AddObject(fruit, OBJECT_GROUP::FRUIT);
 			++curCnt;
@@ -101,7 +128,7 @@ void Game_Scene::Update()
 								else {
 									curDrag->combo += 1;
 									Vec2 v = fruits[i]->GetVelocity();
-									curDrag->predScore += v.Length() * 2;
+									curDrag->predScore += (int)(v.Length() * 2);
 								}
 							}
 
@@ -143,9 +170,8 @@ void Game_Scene::Render(HDC _dc)
 		bf.AlphaFormat = 0;
 		bf.BlendOp = AC_SRC_OVER;
 		bf.BlendFlags = 0;
-		bf.SourceConstantAlpha = 128 * (curFadeSec / fadeSec);
-		AlphaBlend(_dc, 0, 0, WINDOW_WIDTH , WINDOW_HEIGHT , 
-			focusModeTex->GetDC(), 0, 0, focusModeTex->GetWidth(), focusModeTex->GetHeight(), bf);
+		bf.SourceConstantAlpha = (BYTE)(128.0f * (curFadeSec / fadeSec));
+		AlphaBlend(_dc, 0, 0, WINDOW_WIDTH , WINDOW_HEIGHT , focusModeTex->GetDC(), 0, 0, focusModeTex->GetWidth(), focusModeTex->GetHeight(), bf);
 
 		SelectObject(_dc, prevBrush);
 		DeleteObject(b);
@@ -257,10 +283,7 @@ void Game_Scene::AddScoreDrawCall(int val)
 void Game_Scene::DecreaseLife(int value)
 {
 	life -= value;
-	if (life == 0) {
-
-		SceneMgr::GetInst()->LoadScene(L"GameOverScene");
-	}
+	
 }
 
 void Game_Scene::AddScore(int value)

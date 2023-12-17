@@ -37,8 +37,6 @@ private:
 
 	Texture* myTexture;
 
-	float lifeTime;
-
 	int bounceCount = 2;
 
 	bool cut;

@@ -11,23 +11,15 @@
 
 Object::Object(Scene* scene)
 	: m_pCollider(nullptr)
-	, m_vPos{}
-
+	, m_vPos{0, 0}
 	, m_vScale{}
-
 	, m_IsAlive(true)
-
 	, m_pAnimator(nullptr)
-
-	, m_vVelocity(0, 0)
-
+	, m_vVelocity{0, 0}
 	, bounciness(0.9)
-
 	, colliding(nullptr)
-
-	, level(scene)
-
 {
+	level = scene;
 }
 
 Object::~Object()
@@ -103,14 +95,14 @@ void Object::Component_Render(HDC _dc  )
 }
 
 
-const float& Object::GetMyDT() const
+const float Object::GetMyDT() const
 {
 	return fDT * level->GetTimescale();
 
 }
 
 
-const float& Object::GetUnscaledDT() const
+const float Object::GetUnscaledDT() const
 {
 	return fDT;
 

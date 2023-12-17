@@ -33,6 +33,9 @@ void Start_Scene::Init()
 	Btn3->SetPos((Vec2({ Core::GetInst()->GetResolution().x / 2, Core::GetInst()->GetResolution().y / 2 + 200 })));
 	Btn3->SetScale(Vec2(100.f, 30.f));
 	AddObject(Btn3, OBJECT_GROUP::UI);
+	ResMgr::GetInst()->Stop(SOUND_CHANNEL::BGM);
+	ResMgr::GetInst()->LoadSound(L"BgndMusic", L"Sound\\BgndMusic.mp3", true);
+	ResMgr::GetInst()->Play(L"BgndMusic");
 }
 
 void Start_Scene::Update()

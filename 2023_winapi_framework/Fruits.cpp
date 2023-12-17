@@ -21,8 +21,10 @@ Fruits::~Fruits()
 void Fruits::Init(FRUITS type, float scale)
 {
 	fruitMode = type; 
-	lifeTime = 0;  
 	cut = false;
+	bounceCount = 2;
+	pauseMode = false;
+	SetBounciness(1);
 	 
 	wchar_t fileNameBuffer[50];
 	wsprintf(fileNameBuffer, L"Texture\\%s.bmp", EnumToStringer::GetInst()->GetFruitName(type).c_str()); 
@@ -34,6 +36,7 @@ void Fruits::Init(FRUITS type, float scale)
 	GetCollider()->SetScale(Vec2(GetScale().x, GetScale().x) * 0.5f); 
 	GetCollider()->SetOffSetPos(Vec2(GetScale().x, GetScale().y) * 0.5f);
 
+	
 }
 
 
@@ -78,7 +81,8 @@ void Fruits::Update()
 
 void Fruits::Render(HDC _dc)
 {
-	TRANSPARENTBLT_INPOS(_dc, myTexture->GetDC(), myTexture);
+	TransparentBlt(_dc, GetPos().x, GetPos().y, GetScale().x, GetScale().y, myTexture->GetDC(), 0, 0, myTexture->GetWidth(), myTexture->GetHeight(), RGB(255, 0, 255));
+	//TRANSPARENTBLT_INPOS(_dc, myTexture->GetDC(), myTexture);
 	//Component_Render(_dc);
 }
 
@@ -104,6 +108,7 @@ void Fruits::ExitCollision(Collider* _pOther)
 void Fruits::SetDead()
 {
 	if (!cut) {
+		float g = GetPos().y;
 		Object::SetDead();
 		static_cast<Game_Scene*>(GetLevel())->curCnt -= 1;
 		Splatter* splatter = new Splatter(GetLevel());

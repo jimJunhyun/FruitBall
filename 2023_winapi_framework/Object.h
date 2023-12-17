@@ -46,9 +46,9 @@ public:
 
 	Scene* GetLevel() const { return level; }
 
-	const float& GetMyDT() const;
+	const float GetMyDT() const;
 
-	const float& GetUnscaledDT() const;
+	const float GetUnscaledDT() const;
 
 	Collider* GetCollider() const 
 	{ return m_pCollider; }
